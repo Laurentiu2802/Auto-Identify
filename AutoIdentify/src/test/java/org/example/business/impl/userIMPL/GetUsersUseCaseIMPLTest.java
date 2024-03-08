@@ -43,10 +43,6 @@ class GetUsersUseCaseIMPLTest {
 
         when(userRepository.getAllUsers()).thenReturn(List.of(userEntity));
 
-        // Assuming UserConverter::convert is a method call you would like to mock
-        // UserConverter converter = mock(UserConverter.class);
-        // when(converter.convert(userEntity)).thenReturn(user);
-
         // When
         GetUsersResponse response = getUsersUseCase.getUsers(request);
 
