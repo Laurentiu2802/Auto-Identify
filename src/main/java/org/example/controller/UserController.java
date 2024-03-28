@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
+@CrossOrigin(origins = "http://localhost:5176", allowCredentials = "true")
 @AllArgsConstructor
 public class UserController {
     private final GetUsersUseCase getUsersUseCase;
