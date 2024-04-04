@@ -2,6 +2,9 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.1.0'
     id 'io.spring.dependency-management' version '1.1.0'
+    id "org.sonarqube" version "4.2.1.3168"
+    id 'jacoco'
+
 }
 
 group = 'org.example'
@@ -9,6 +12,16 @@ version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "AutoIdentify"
+        property "sonar.projectName", "AutoIdentify"
+        property "sonar.token", "sqp_a62ea27f86e100ad7cd09c89e3197d4deb0ae099"
+        property "sonar.qualitygate.wait", true
+        property "sonar.java.coveragePlugin", "jacoco"
+    }
 }
 
 dependencies {
@@ -25,6 +38,27 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
 }
 
+jacoco {
+    toolVersion = "0.8.9"
+    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+
+}
+
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
+    dependsOn test
+}
+
+tasks.named('sonarqube').configure {
+    dependsOn jacocoTestReport
+
 }
