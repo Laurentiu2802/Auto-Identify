@@ -26,9 +26,9 @@ sonarqube {
 }
 
 flyway {
-    url = 'jdbc:sqlserver://mssqlstud.fhict.local;databaseName=dbi489945;encrypt=false'
-    user = 'dbi489945'
-    password = 'booMPentakill27'
+    url = 'jdbc:sqlserver://mssqlstud.fhict.local;databaseName=dbi478560;encrypt=false'
+    user = 'dbi478560'
+    password = '1234'
     locations = ['filesystem:src/main/resources/db/migration']
     baselineOnMigrate = true
 }

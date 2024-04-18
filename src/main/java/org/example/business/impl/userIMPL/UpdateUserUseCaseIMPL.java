@@ -17,7 +17,7 @@ public class UpdateUserUseCaseIMPL implements UpdateUserUseCase {
 
     @Override
     public void updateUser(UpdateUserRequest request){
-        Optional<UserEntity> userOptional = userRepository.findByID(request.getUserID());
+        Optional<UserEntity> userOptional = userRepository.findByUserID(request.getUserID());
 
         if (userOptional.isPresent()) {
             UserEntity user = userOptional.get();

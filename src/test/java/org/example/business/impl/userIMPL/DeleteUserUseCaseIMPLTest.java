@@ -31,6 +31,6 @@ class DeleteUserUseCaseIMPLTest {
             deleteUserUseCase.DeleteUser(userId);
 
             // Then
-            verify(userRepository).deleteByID(anyLong());
+            verify(userRepository).deleteByUserID(anyLong());
         }
     }

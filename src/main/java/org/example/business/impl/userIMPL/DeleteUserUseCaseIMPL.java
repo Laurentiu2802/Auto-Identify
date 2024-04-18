@@ -12,6 +12,6 @@ public class DeleteUserUseCaseIMPL implements DeleteUserUseCase {
 
     @Override
     public void DeleteUser(Long userID){
-        this.userRepository.deleteByID(userID);
+        this.userRepository.deleteByUserID(userID);
     }
 }
