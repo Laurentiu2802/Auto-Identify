@@ -45,13 +45,13 @@ class UpdateUserUseCaseIMPLTest {
                 .description("oldDescription")
                 .build();
 
-        when(userRepository.findByID(userId)).thenReturn(Optional.of(existingUserEntity));
+        when(userRepository.findByUserID(userId)).thenReturn(Optional.of(existingUserEntity));
 
         // When
         updateUserUseCase.updateUser(request);
 
         // Then
-        verify(userRepository).findByID(userId);
+        verify(userRepository).findByUserID(userId);
         verify(userRepository).save(existingUserEntity); // Verify that the repository's save method is called
 
         // Verify the UserEntity object has been updated
@@ -71,7 +71,7 @@ class UpdateUserUseCaseIMPLTest {
                 .description("newDescription")
                 .build();
 
-        when(userRepository.findByID(userId)).thenReturn(Optional.empty());
+        when(userRepository.findByUserID(userId)).thenReturn(Optional.empty());
 
         // When & Then
         Exception exception = assertThrows(NoSuchElementException.class, () -> {
