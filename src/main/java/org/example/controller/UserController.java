@@ -3,10 +3,7 @@ package org.example.controller;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.example.business.dto.userDTO.*;
-import org.example.business.user.CreateUserUseCase;
-import org.example.business.user.DeleteUserUseCase;
-import org.example.business.user.GetUsersUseCase;
-import org.example.business.user.UpdateUserUseCase;
+import org.example.business.user.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +17,7 @@ public class UserController {
     private  final DeleteUserUseCase deleteUserUseCase;
     private final UpdateUserUseCase updateUserUseCase;
     private final CreateUserUseCase createUserUseCase;
+    private final LogInUseCase logInUseCase;
 
     @GetMapping
     public ResponseEntity<GetUsersResponse> getUsers(){
@@ -47,4 +45,9 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @PostMapping(path = "/tokens")
+    public ResponseEntity<LogInResponse> login(@RequestBody @Valid LogInRequest loginRequest) {
+        LogInResponse loginResponse = logInUseCase.loginUser(loginRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(loginResponse);
+    }
 }

@@ -38,6 +38,14 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    implementation 'com.password4j:password4j:1.7.3'
+    implementation 'com.auth0:java-jwt:4.4.0'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+    testImplementation 'org.springframework.security:spring-security-test'
+
     implementation 'org.flywaydb:flyway-core'
     implementation "org.flywaydb:flyway-sqlserver"
     implementation group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '12.4.2.jre11'

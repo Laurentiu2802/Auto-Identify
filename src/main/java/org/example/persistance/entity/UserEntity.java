@@ -19,11 +19,18 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="userID")
     private Long userID;
+
     @Column(name="username")
     private  String username;
+
     @Column(name="password")
     @Length(max = 5000)
     private  String password;
+
     @Column(name="description")
     private String description;
+
+@ManyToOne
+@JoinColumn(name = "user_role_id")
+    private UserRoleEntity role;
 }

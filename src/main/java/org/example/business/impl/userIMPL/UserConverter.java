@@ -18,6 +18,7 @@ public class UserConverter {
                 .username(user.getUsername())
                 .password(user.getPassword())
                 .description(user.getDescription())
+                .userRole(user.getRole())
                 .build();
     }
 }
