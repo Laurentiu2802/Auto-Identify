@@ -30,7 +30,7 @@ public class UserEntity {
     @Column(name="description")
     private String description;
 
-@ManyToOne
-@JoinColumn(name = "user_role_id")
+    @ManyToOne
+    @JoinColumn(name = "user_role_id")
     private UserRoleEntity role;
 }

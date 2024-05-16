@@ -5,7 +5,6 @@ plugins {
     id "org.sonarqube" version "4.2.1.3168"
     id 'jacoco'
     id 'org.flywaydb.flyway' version '7.8.1'
-
 }
 
 group = 'org.example'
@@ -32,11 +31,9 @@ flyway {
     locations = ['filesystem:src/main/resources/db/migration']
     baselineOnMigrate = true
 }
+
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.9.1')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
@@ -44,24 +41,24 @@ dependencies {
     implementation 'com.auth0:java-jwt:4.4.0'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
-    testImplementation 'org.springframework.security:spring-security-test'
-
     implementation 'org.flywaydb:flyway-core'
-    implementation "org.flywaydb:flyway-sqlserver"
-    implementation group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '12.4.2.jre11'
+    implementation 'org.flywaydb:flyway-sqlserver'
+    implementation 'com.microsoft.sqlserver:mssql-jdbc:12.4.2.jre11'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    testImplementation 'org.mockito:mockito-core:4.0.0'
     implementation 'org.projectlombok:lombok:1.18.26'
-    testImplementation 'org.projectlombok:lombok:1.18.26'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.mockito:mockito-core:4.0.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter'
+    testImplementation 'org.springframework.security:spring-security-test'
 }
 
 jacoco {
     toolVersion = "0.8.9"
     reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
-
 }
 
 test {
@@ -80,5 +77,4 @@ jacocoTestReport {
 
 tasks.named('sonarqube').configure {
     dependsOn jacocoTestReport
-
 }
