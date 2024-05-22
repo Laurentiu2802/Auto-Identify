@@ -40,6 +40,7 @@ deploy_backend:
       }
     - docker run -d -p 8090:8080 --net=docker_demo_network_staging --env spring_profiles_active=staging --name autoindetify-be $env:BACKEND_IMAGE
 
+
 deploy_database:
   stage: deploy
   script:
