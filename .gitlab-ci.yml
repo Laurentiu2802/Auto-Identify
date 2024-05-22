@@ -7,12 +7,12 @@ variables:
 before_script:
   - docker info
 
-sonarqube_analysis:
-  stage: sonarqube
-  script:
-    - ./gradlew jacocoTestReport sonarqube
-  only:
-    - main
+#sonarqube_analysis:
+#  stage: sonarqube
+#  script:
+#    - ./gradlew jacocoTestReport sonarqube
+#  only:
+#    - main
 
 stages:
   - build
@@ -34,6 +34,13 @@ test:
 deploy_backend:
   stage: deploy
   script:
-    - docker stop autoindetify-backend || $true
-    - docker rm autoindetify-backend || $true
+    - docker stop autoindetify-be || $true
+    - docker rm autoindetify-be || $true
+    - docker run -d -p 8090:8080 --net=docker_demo_network_staging --env spring_profiles_active=staging --name autoidentify-be $BACKEND_IMAGE
+deploy_database:
+  stage: deploy
+  script:
+    - docker stop autoidentifydb || $true
+    - docker rm autoidentifydb || $true
+    - docker pull $DATABASE_IMAGE
     - docker run -d -e ACCEPT_EULA=Y -e SA_PASSWORD=1234 -p 1433:1433 --name autoidentifydb $DATABASE_IMAGE
