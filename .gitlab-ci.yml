@@ -7,24 +7,16 @@ variables:
 before_script:
   - docker info
 
-#sonarqube_analysis:
-#  stage: sonarqube
-#  script:
-#    - ./gradlew jacocoTestReport sonarqube
-#  only:
-#    - main
-
 stages:
   - build
   - test
-#  - sonarqube
   - deploy
 
 build:
   stage: build
   script:
     - ./gradlew clean assemble
-    - docker build -t $BACKEND_IMAGE .
+    - docker build -t $env:BACKEND_IMAGE .
 
 test:
   stage: test
@@ -34,13 +26,34 @@ test:
 deploy_backend:
   stage: deploy
   script:
-    - docker stop autoindetify-be || $true
-    - docker rm autoindetify-be || $true
-    - docker run -d -p 8090:8080 --net=docker_demo_network_staging --env spring_profiles_active=staging --name autoidentify-be $BACKEND_IMAGE
+    - |
+      try {
+        docker stop autoindetify-be
+      } catch {
+        Write-Host "Failed to stop the container, continuing..."
+      }
+    - |
+      try {
+        docker rm autoindetify-be
+      } catch {
+        Write-Host "Failed to remove the container, continuing..."
+      }
+    - docker run -d -p 8090:8080 --net=docker_demo_network_staging --env spring_profiles_active=staging --name autoindetify-be $env:BACKEND_IMAGE
+
 deploy_database:
   stage: deploy
   script:
-    - docker stop autoidentifydb || $true
-    - docker rm autoidentifydb || $true
-    - docker pull $DATABASE_IMAGE
-    - docker run -d -e ACCEPT_EULA=Y -e SA_PASSWORD=1234 -p 1433:1433 --name autoidentifydb $DATABASE_IMAGE
+    - |
+      try {
+        docker stop autoidentifydb
+      } catch {
+        Write-Host "Failed to stop the container, continuing..."
+      }
+    - |
+      try {
+        docker rm autoidentifydb
+      } catch {
+        Write-Host "Failed to remove the container, continuing..."
+      }
+    - docker pull $env:DATABASE_IMAGE
+    - docker run -d -e ACCEPT_EULA=Y -e SA_PASSWORD=1234 -p 1433:1433 --name autoidentifydb $env:DATABASE_IMAGE
