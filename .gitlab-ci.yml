@@ -28,13 +28,13 @@ deploy_backend:
   script:
     - |
       try {
-        docker stop autoindetify-be
+        docker stop autoidentify-be
       } catch {
         Write-Host "Failed to stop the container, continuing..."
       }
     - |
       try {
-        docker rm autoindetify-be
+        docker rm autoidentify-be
       } catch {
         Write-Host "Failed to remove the container, continuing..."
       }
