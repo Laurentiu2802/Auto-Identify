@@ -1,5 +1,5 @@
 variables:
-  SONARQUBE_IMAGE: sonarqube.latest
+  SONARQUBE_IMAGE: sonarqube:latest
   DATABASE_IMAGE: mcr.microsoft.com/mssql/server:latest
   BACKEND_IMAGE: autoindetify-backend:latest
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
