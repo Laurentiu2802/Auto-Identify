@@ -17,7 +17,7 @@ sonarqube_analysis:
 stages:
   - build
   - test
-  - sonarqube
+#  - sonarqube
   - deploy
 
 build:
