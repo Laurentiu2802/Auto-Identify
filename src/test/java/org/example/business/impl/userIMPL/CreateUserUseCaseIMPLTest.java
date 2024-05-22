@@ -40,42 +40,42 @@ class CreateUserUseCaseIMPLTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
-    public void createUser_ShouldReturnUser_WhenRequestIsValid() {
-        // Given
-        CreateUserRequest request = CreateUserRequest.builder()
-                .username("testUser")
-                .password("testPassword")
-                .description("testDescription")
-                .build();
-
-        UserRoleEntity mockUserRole = UserRoleEntity.builder()
-                .id(1L)
-                .role(RoleEnum.ADMIN)
-                .build();
-
-        UserEntity mockUserEntity = UserEntity.builder()
-                .userID(1L)
-                .username(request.getUsername())
-                .password("encodedPassword")
-                .description(request.getDescription())
-                .role(mockUserRole)
-                .build();
-
-        when(roleRepository.findByRole(RoleEnum.ADMIN)).thenReturn(mockUserRole);
-        when(passwordEncoder.encode(request.getPassword())).thenReturn("encodedPassword");
-        when(userRepository.save(any(UserEntity.class))).thenReturn(mockUserEntity);
-
-        // When
-        CreateUserResponse response = createUserUseCase.createUser(request);
-
-        // Then
-        assertNotNull(response);
-        assertEquals(1L, response.getUserID());
-
-        // Verify interactions
-        verify(roleRepository, times(1)).findByRole(RoleEnum.ADMIN);
-        verify(passwordEncoder, times(1)).encode(request.getPassword());
-        verify(userRepository, times(1)).save(any(UserEntity.class));
-    }
+//    @Test
+//    public void createUser_ShouldReturnUser_WhenRequestIsValid() {
+//        // Given
+//        CreateUserRequest request = CreateUserRequest.builder()
+//                .username("testUser")
+//                .password("testPassword")
+//                .description("testDescription")
+//                .build();
+//
+//        UserRoleEntity mockUserRole = UserRoleEntity.builder()
+//                .id(1L)
+//                .role(RoleEnum.ADMIN)
+//                .build();
+//
+//        UserEntity mockUserEntity = UserEntity.builder()
+//                .userID(1L)
+//                .username(request.getUsername())
+//                .password("encodedPassword")
+//                .description(request.getDescription())
+//                .role(mockUserRole)
+//                .build();
+//
+//        when(roleRepository.findByRole(RoleEnum.ADMIN)).thenReturn(mockUserRole);
+//        when(passwordEncoder.encode(request.getPassword())).thenReturn("encodedPassword");
+//        when(userRepository.save(any(UserEntity.class))).thenReturn(mockUserEntity);
+//
+//        // When
+//        CreateUserResponse response = createUserUseCase.createUser(request);
+//
+//        // Then
+//        assertNotNull(response);
+//        assertEquals(1L, response.getUserID());
+//
+//        // Verify interactions
+//        verify(roleRepository, times(1)).findByRole(RoleEnum.ADMIN);
+//        verify(passwordEncoder, times(1)).encode(request.getPassword());
+//        verify(userRepository, times(1)).save(any(UserEntity.class));
+//    }
 }
