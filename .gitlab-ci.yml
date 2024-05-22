@@ -14,8 +14,6 @@ sonarqube_analysis:
   only:
     - main
 
-
-
 stages:
   - build
   - test
