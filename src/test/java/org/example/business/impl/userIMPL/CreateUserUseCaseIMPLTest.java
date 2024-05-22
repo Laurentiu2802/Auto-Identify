@@ -51,7 +51,7 @@ class CreateUserUseCaseIMPLTest {
 
         UserRoleEntity mockUserRole = UserRoleEntity.builder()
                 .id(1L)
-                .role(RoleEnum.USER)
+                .role(RoleEnum.ADMIN)
                 .build();
 
         UserEntity mockUserEntity = UserEntity.builder()
@@ -62,7 +62,7 @@ class CreateUserUseCaseIMPLTest {
                 .role(mockUserRole)
                 .build();
 
-        when(roleRepository.findByRole(RoleEnum.USER)).thenReturn(mockUserRole);
+        when(roleRepository.findByRole(RoleEnum.ADMIN)).thenReturn(mockUserRole);
         when(passwordEncoder.encode(request.getPassword())).thenReturn("encodedPassword");
         when(userRepository.save(any(UserEntity.class))).thenReturn(mockUserEntity);
 
@@ -74,7 +74,7 @@ class CreateUserUseCaseIMPLTest {
         assertEquals(1L, response.getUserID());
 
         // Verify interactions
-        verify(roleRepository, times(1)).findByRole(RoleEnum.USER);
+        verify(roleRepository, times(1)).findByRole(RoleEnum.ADMIN);
         verify(passwordEncoder, times(1)).encode(request.getPassword());
         verify(userRepository, times(1)).save(any(UserEntity.class));
     }

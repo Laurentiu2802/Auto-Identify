@@ -1,16 +1,41 @@
 variables:
+  SONARQUBE_IMAGE: sonarqube.latest
+  DATABASE_IMAGE: mcr.microsoft.com/mssql/server:latest
+  BACKEND_IMAGE: autoindetify-backend:latest
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+
+before_script:
+  - docker info
+
+sonarqube_analysis:
+  stage: sonarqube
+  script:
+    - ./gradlew jacocoTestReport sonarqube
+  only:
+    - main
+
+
 
 stages:
   - build
   - test
+  - sonarqube
+  - deploy
 
 build:
   stage: build
   script:
-    - ./gradlew assemble
+    - ./gradlew clean assemble
+    - docker build -t $BACKEND_IMAGE .
 
 test:
   stage: test
   script:
     - ./gradlew test
+
+deploy_backend:
+  stage: deploy
+  script:
+    - docker stop autoindetify-backend || $true
+    - docker rm autoindetify-backend || $true
+    - docker run -d -e ACCEPT_EULA=Y -e SA_PASSWORD=1234 -p 1433:1433 --name autoidentifydb $DATABASE_IMAGE
