@@ -21,6 +21,11 @@ sonarqube {
         property "sonar.token", "sqp_a62ea27f86e100ad7cd09c89e3197d4deb0ae099"
         property "sonar.qualitygate.wait", true
         property "sonar.java.coveragePlugin", "jacoco"
+        property "sonar.coverage.exclusions",[
+                "src/main/java/org/example/Configuration/**/*",
+                "src/main/java/org/example/AutoIdentifyApplication.java",
+                "src/main/java/org/example/domain/"
+        ]
     }
 }
 
@@ -35,6 +40,7 @@ flyway {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     implementation 'com.password4j:password4j:1.7.3'
@@ -73,6 +79,15 @@ jacocoTestReport {
         html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
     }
     dependsOn test
+}
+afterEvaluate {
+    jacocoTestReport.classDirectories.setFrom(files(jacocoTestReport.classDirectories.files.collect{
+        fileTree(dir:it,exclude:[
+                "org/example/Configuration/**/*",
+                "org/example/AutoIdentifyApplication.java",
+                "org/example/domain/",
+        ])
+    }))
 }
 
 tasks.named('sonarqube').configure {
