@@ -45,7 +45,7 @@ public class WebSecurityConfig {
                                 .requestMatchers(SWAGGER_UI_RESOURCES).permitAll()                        // Swagger is also public (In "real life" it would only be public in non-production environments)
                                 .anyRequest().authenticated()                                             // Everything else --> authentication required, which is Spring security's default behaviour
                 )
-                .exceptionHandling(configure -> configure.authenticationEntryPoint(authenticationEntryPoint))
+                .exceptionHandling(configure -> configure.authenticationEntryPoint(authenticationEntryPoint)) /////test
                 .addFilterBefore(authenticationRequestFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
