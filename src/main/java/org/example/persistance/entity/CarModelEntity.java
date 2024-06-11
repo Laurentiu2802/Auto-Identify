@@ -9,30 +9,23 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
-@Table(name = "s3_comment")
+@Table(name = "s3_model")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommentEntity {
+public class CarModelEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "commentID")
-    private Long commentID;
+    @Column(name = "modelID")
+    private long modelID;
+
+    @Length(min = 1, max = 50)
+    @Column(name = "modelName")
+    private String modelName;
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "postID")
-    private PostEntity post;
-
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "userID")
-    private UserEntity user;
-
-    @Length(min = 1, max = 100)
-    @Column(name = "description")
-    private String description;
-
-
+    @JoinColumn(name = "brandID")
+    private CarBrandEntity carBrand;
 }

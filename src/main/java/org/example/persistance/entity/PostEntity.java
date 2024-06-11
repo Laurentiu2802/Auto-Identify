@@ -1,5 +1,6 @@
 package org.example.persistance.entity;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,19 @@ public class PostEntity {
     @Column(name = "description")
     private String description;
 
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "categoryID")
+    private CategoryEntity category;
 
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "brandID")
+    private CarBrandEntity carBrand;
+
+    @Nullable
+    @ManyToOne
+    @JoinColumn(name = "modelID")
+    private CarModelEntity carModel;
 
 }
