@@ -40,7 +40,7 @@ public class PostEntity {
     @JoinColumn(name = "brandID")
     private CarBrandEntity carBrand;
 
-    @Nullable
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "modelID")
     private CarModelEntity carModel;

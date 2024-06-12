@@ -14,7 +14,7 @@ public class CarBrandConverter {
             return null;
         }
         return CarBrand.builder()
-                .brandID(carBrand.getBrandID())
+                .brandID(carBrand.getCarBrandID())
                 .brandName(carBrand.getBrandName())
                 .build();
     }
