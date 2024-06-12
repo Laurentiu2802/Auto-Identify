@@ -4,16 +4,19 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.example.business.Post.CreatePostUseCase;
 import org.example.business.Post.GetAllPostsUseCase;
-import org.example.business.dto.postDTO.CreatePostRequest;
-import org.example.business.dto.postDTO.CreatePostResponse;
-import org.example.business.dto.postDTO.GetAllPostsRequest;
-import org.example.business.dto.postDTO.GetAllPostsResponse;
+import org.example.business.dto.postDTO.*;
 import org.example.business.dto.userDTO.CreateUserResponse;
 import org.example.business.dto.userDTO.GetUsersResponse;
+import org.example.business.impl.postIMPL.PostConverter;
+import org.example.domain.Post;
 import org.example.persistance.PostRepository;
+import org.example.persistance.entity.PostEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/posts")
@@ -34,6 +37,25 @@ public class PostController {
     public ResponseEntity<GetAllPostsResponse> getAllPosts(){
         GetAllPostsRequest request = GetAllPostsRequest.builder().build();
         GetAllPostsResponse response = getAllPostsUseCase.getAllPosts(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<GetPostsByCriteriaResponse> getPostsByCriteria(
+            @RequestParam(required = false) Long postID,
+            @RequestParam(required = false) Long categoryID,
+            @RequestParam(required = false) Long carBrandID,
+            @RequestParam(required = false) Long carModelID) {
+
+        List<PostEntity> postEntities = postRepository.findPostsByCriteria(categoryID, carBrandID, carModelID);
+
+        List<Post> posts = postEntities.stream()
+                .map(PostConverter::convert)
+                .collect(Collectors.toList());
+
+        GetPostsByCriteriaResponse response = new GetPostsByCriteriaResponse();
+        response.setPosts(posts);
+
         return ResponseEntity.ok(response);
     }
 
