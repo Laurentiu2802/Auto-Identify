@@ -18,4 +18,14 @@ public class CreatePostRequest {
 
     @NotNull
     private Long userID;
+
+    @NotNull
+    private Long categoryID;
+
+    @NotNull
+    private Long carBrandID;
+
+    @NotNull
+    private Long carModelID;
+
 }

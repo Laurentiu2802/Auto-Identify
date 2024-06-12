@@ -1,4 +1,4 @@
-package org.example.business.dto.postDTO;
+package org.example.business.dto.carModelDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,10 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreatePostResponse {
-
-    private Long postID;
-    private String description;
-
-
+public class GetCarModelByCarBrand {
+    private Long carModelID;
+    private Long carBrandID;
 }

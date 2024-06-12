@@ -13,5 +13,8 @@ import org.example.persistance.entity.UserEntity;
 public class Post {
     private Long postID;
     private String description;
+    private Category category;
+    private CarBrand carBrand;
+    private CarModel carModel;
     private User user;
 }
