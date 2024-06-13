@@ -31,6 +31,8 @@ public class SearchCriteriaController {
     private final GetAllCarBrandsUseCase getAllCarBrandsUseCase;
     private final GetCarModelsUseCase getCarModelsUseCase;
 
+    //test for pipeline
+
     @GetMapping()
     public ResponseEntity<GetAllCategoriesResponse> getAllCategories(){
         GetAllCategoriesRequest request = GetAllCategoriesRequest.builder().build();
