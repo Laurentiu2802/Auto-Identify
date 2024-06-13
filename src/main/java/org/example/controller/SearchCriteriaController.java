@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/search")
+@RequestMapping("/search1")
 @AllArgsConstructor
 @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class SearchCriteriaController {
@@ -33,21 +33,21 @@ public class SearchCriteriaController {
 
     //test for pipeline
 
-    @GetMapping()
+    @GetMapping("/category")
     public ResponseEntity<GetAllCategoriesResponse> getAllCategories(){
         GetAllCategoriesRequest request = GetAllCategoriesRequest.builder().build();
         GetAllCategoriesResponse response = getAllCategoriesUseCase.getCategories(request);
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping()
+    @GetMapping("/brands")
     public ResponseEntity<GetAllCarBrandsResponse> getAllCarBrands(){
         GetAllCarBrandsRequest request = GetAllCarBrandsRequest.builder().build();
         GetAllCarBrandsResponse response = getAllCarBrandsUseCase.getBrands(request);
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping()
+    @GetMapping("/models")
     public ResponseEntity<GetCarModelByCarBrandResponse> getCarModels(){
         GetCarModelByCarBrand request = GetCarModelByCarBrand.builder().build();
         GetCarModelByCarBrandResponse response = GetCarModelByCarBrandResponse.builder().build();
