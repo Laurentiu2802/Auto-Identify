@@ -1,4 +1,4 @@
-package org.example.business.dto.postDTO;
+package org.example.business.dto.commentDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetPostsByCriteriaRequest {
+public class GetCommentsByPostIDRequest {
     private Long postID;
-    private Long categoryID;
-    private Long carBrandID;
-    private Long carModelID;
+    private Long description;
+    private Long userID;
 }

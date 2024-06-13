@@ -26,6 +26,7 @@ public class PostController {
     private final PostRepository postRepository;
     private final CreatePostUseCase createPostUseCase;
     private final GetAllPostsUseCase getAllPostsUseCase;
+    //trebuie facut use case la get post by criteria
 
     @PostMapping()
     public ResponseEntity<CreatePostResponse> createPost(@RequestBody @Valid CreatePostRequest request){
