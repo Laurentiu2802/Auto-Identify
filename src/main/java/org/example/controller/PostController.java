@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.example.business.Post.CreatePostUseCase;
 import org.example.business.Post.GetAllPostsUseCase;
+import org.example.business.Post.GetPostByCriteriaUseCase;
 import org.example.business.dto.postDTO.*;
 import org.example.business.dto.userDTO.CreateUserResponse;
 import org.example.business.dto.userDTO.GetUsersResponse;
@@ -26,6 +27,7 @@ public class PostController {
     private final PostRepository postRepository;
     private final CreatePostUseCase createPostUseCase;
     private final GetAllPostsUseCase getAllPostsUseCase;
+    private final GetPostByCriteriaUseCase getPostByCriteriaUseCase;
     //trebuie facut use case la get post by criteria
 
     @PostMapping()
