@@ -4,9 +4,12 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.example.business.dto.userDTO.*;
 import org.example.business.user.*;
+import org.example.domain.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -18,6 +21,7 @@ public class UserController {
     private final UpdateUserUseCase updateUserUseCase;
     private final CreateUserUseCase createUserUseCase;
     private final LogInUseCase logInUseCase;
+    private final GetUserDetailsUseCase getUserDetailsUseCase;
 
     @GetMapping
     public ResponseEntity<GetUsersResponse> getUsers(){
@@ -49,5 +53,14 @@ public class UserController {
     public ResponseEntity<LogInResponse> login(@RequestBody @Valid LogInRequest loginRequest) {
         LogInResponse loginResponse = logInUseCase.loginUser(loginRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(loginResponse);
+    }
+
+    @GetMapping("/userDetails/{id}")
+    public ResponseEntity<User> getUser(@PathVariable(value = "id") final long id){
+        final Optional<User> userOptional = getUserDetailsUseCase.getUser(id);
+        if(userOptional.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(userOptional.get());
     }
 }

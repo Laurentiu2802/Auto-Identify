@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetCarModelByCarBrand {
-    private Long carModelID;
+//    private Long carModelID;
     private Long carBrandID;
 }

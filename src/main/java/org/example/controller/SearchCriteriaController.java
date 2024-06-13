@@ -14,10 +14,7 @@ import org.example.persistance.CarBrandRepository;
 import org.example.persistance.CarModelRepository;
 import org.example.persistance.CategoryRepository;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/search1")
@@ -47,10 +44,10 @@ public class SearchCriteriaController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/models")
-    public ResponseEntity<GetCarModelByCarBrandResponse> getCarModels(){
-        GetCarModelByCarBrand request = GetCarModelByCarBrand.builder().build();
-        GetCarModelByCarBrandResponse response = GetCarModelByCarBrandResponse.builder().build();
+    @GetMapping(path = "models/{carBrandID}")
+    public ResponseEntity<GetCarModelByCarBrandResponse> getCarModels(@PathVariable(value = "carBrandID") long carBrandID){
+        GetCarModelByCarBrand request = GetCarModelByCarBrand.builder().carBrandID(carBrandID).build();
+        GetCarModelByCarBrandResponse response = getCarModelsUseCase.getCarModels(request);
         return ResponseEntity.ok(response);
     }
 }
