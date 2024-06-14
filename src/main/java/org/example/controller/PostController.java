@@ -3,10 +3,7 @@ package org.example.controller;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.example.business.Post.CountPostsUseCase;
-import org.example.business.Post.CreatePostUseCase;
-import org.example.business.Post.GetAllPostsUseCase;
-import org.example.business.Post.GetPostByCriteriaUseCase;
+import org.example.business.Post.*;
 import org.example.business.dto.postDTO.*;
 import org.example.business.dto.userDTO.CreateUserResponse;
 import org.example.business.dto.userDTO.GetUsersResponse;
@@ -16,9 +13,11 @@ import org.example.persistance.PostRepository;
 import org.example.persistance.entity.PostEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -31,6 +30,7 @@ public class PostController {
     private final GetAllPostsUseCase getAllPostsUseCase;
     private final GetPostByCriteriaUseCase getPostByCriteriaUseCase;
     private final CountPostsUseCase countPostsUseCase;
+    private final GetPostByIDUseCase getPostByIDUseCase;
 
     @PostMapping()
     public ResponseEntity<CreatePostResponse> createPost(@RequestBody @Valid CreatePostRequest request){
@@ -43,6 +43,15 @@ public class PostController {
         GetAllPostsRequest request = GetAllPostsRequest.builder().build();
         GetAllPostsResponse response = getAllPostsUseCase.getAllPosts(request);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<Post> getPost(@PathVariable(value = "id") final long id){
+        final Optional<Post> postOptional = getPostByIDUseCase.getPost(id);
+        if(postOptional.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(postOptional.get());
     }
 
     @GetMapping("/search")

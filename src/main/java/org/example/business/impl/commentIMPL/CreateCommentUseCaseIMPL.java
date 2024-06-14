@@ -41,6 +41,7 @@ public class CreateCommentUseCaseIMPL implements CreateCommentUseCase {
         return CreateCommentResponse.builder()
                 .commentID(savedComment.getCommentID())
                 .description(savedComment.getDescription())
+                .username(savedComment.getUser().getUsername())
                 .build();
     }
 

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<PostEntity, Long> {
     @Query("SELECT p FROM PostEntity p WHERE " +
@@ -23,4 +24,7 @@ public interface PostRepository extends JpaRepository<PostEntity, Long> {
 
     @Query("SELECT COUNT(l) FROM LikeEntity l WHERE l.post.postID = :postID")
     Long countLikesForPost(Long postID);
+
+    @Query("SELECT p FROM PostEntity p WHERE p.postID = :postID")
+    Optional<PostEntity> findPostById(@Param("postID") Long postID);
 }
