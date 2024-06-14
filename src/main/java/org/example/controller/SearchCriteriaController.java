@@ -31,7 +31,7 @@ public class SearchCriteriaController {
     private final UpdateCarModelUseCase updateCarModelUseCase;
     private final UpdateCarBrandUseCase updateCarBrandUseCase;
 
-    //test for pipeline
+    //test for pipeline 2
     @PostMapping("/categoryCreate")
     public ResponseEntity<CreateCategoryResponse> createCategory(@RequestBody @Valid CreateCategoryRequest request){
         CreateCategoryResponse response = createCategoryUseCase.createCategory(request);
