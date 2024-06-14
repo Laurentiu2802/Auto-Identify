@@ -26,7 +26,11 @@ public class GetPostsByCriteriaUseCaseIMPL implements GetPostByCriteriaUseCase {
         final GetPostsByCriteriaResponse response = new GetPostsByCriteriaResponse();
         List<Post> posts = postsResults
                 .stream()
-                .map(PostConverter::convert)
+                .map(postEntity -> {
+                    Post post = PostConverter.convert(postEntity);
+                    post.setLikes(postRepository.countLikesForPost(postEntity.getPostID()));
+                    return post;
+                })
                 .toList();
         response.setPosts(posts);
         return response;

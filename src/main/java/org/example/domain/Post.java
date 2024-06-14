@@ -17,4 +17,5 @@ public class Post {
     private CarBrand carBrand;
     private CarModel carModel;
     private User user;
+    private Long likes;
 }

@@ -24,7 +24,11 @@ public class GetPostsUseCaseIMPL implements GetAllPostsUseCase {
         final GetAllPostsResponse response = new GetAllPostsResponse();
         List<Post> posts = postsResults
                 .stream()
-                .map(PostConverter::convert)
+                .map(postEntity -> {
+                    Post post = PostConverter.convert(postEntity);
+                    post.setLikes(postRepository.countLikesForPost(postEntity.getPostID()));
+                    return post;
+                })
                 .toList();
         response.setPosts(posts);
         return response;

@@ -42,6 +42,6 @@ public class LogInUseCaseImpl implements LogInUseCase {
 
     private String generateAccessToken(UserEntity user) {
         return accessTokenEncoder.encode(
-                new AccessTokenImpl(user.getUsername(), user.getUserID(), List.of(user.getRole().toString())));
+                new AccessTokenImpl(user.getUsername(), user.getUserID(), List.of(user.getRole().getRole().toString())));
     }
 }

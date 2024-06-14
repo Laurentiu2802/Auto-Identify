@@ -1,5 +1,6 @@
 package org.example.persistance;
 
+import org.example.domain.CountPosts;
 import org.example.persistance.entity.PostEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,4 +16,11 @@ public interface PostRepository extends JpaRepository<PostEntity, Long> {
     List<PostEntity> findPostsByCriteria(@Param("categoryID") Long categoryID,
                                          @Param("brandID") Long brandID,
                                          @Param("modelID") Long modelID);
+
+    @Query("SELECT NEW org.example.domain.CountPosts(p.user.userID, u.username, COUNT(p))" +
+            "FROM PostEntity p INNER JOIN p.user as u GROUP BY p.user.userID, u.username")
+    List<CountPosts> getUserPostCounts();
+
+    @Query("SELECT COUNT(l) FROM LikeEntity l WHERE l.post.postID = :postID")
+    Long countLikesForPost(Long postID);
 }

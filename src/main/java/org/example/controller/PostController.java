@@ -1,7 +1,9 @@
 package org.example.controller;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.example.business.Post.CountPostsUseCase;
 import org.example.business.Post.CreatePostUseCase;
 import org.example.business.Post.GetAllPostsUseCase;
 import org.example.business.Post.GetPostByCriteriaUseCase;
@@ -28,6 +30,7 @@ public class PostController {
     private final CreatePostUseCase createPostUseCase;
     private final GetAllPostsUseCase getAllPostsUseCase;
     private final GetPostByCriteriaUseCase getPostByCriteriaUseCase;
+    private final CountPostsUseCase countPostsUseCase;
 
     @PostMapping()
     public ResponseEntity<CreatePostResponse> createPost(@RequestBody @Valid CreatePostRequest request){
@@ -58,6 +61,13 @@ public class PostController {
         GetPostsByCriteriaResponse response = new GetPostsByCriteriaResponse();
         response.setPosts(posts);
 
+        return ResponseEntity.ok(response);
+    }
+
+    @RolesAllowed({"ADMIN"})
+    @GetMapping("statistics")
+    public ResponseEntity<GetUserPostCountResponse> getUserPostCount(){
+        GetUserPostCountResponse response = countPostsUseCase.getUserPostCount();
         return ResponseEntity.ok(response);
     }
 
