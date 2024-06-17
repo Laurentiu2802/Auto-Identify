@@ -14,22 +14,33 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class CreateUserUseCaseIMPL implements CreateUserUseCase{
+public class CreateUserUseCaseIMPL implements CreateUserUseCase {
+
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public CreateUserResponse createUser(CreateUserRequest request){
+    public CreateUserResponse createUser(CreateUserRequest request) {
+        validateRequest(request);
         UserEntity savedUser = saveNewUser(request);
-
         return CreateUserResponse.builder()
                 .userID(savedUser.getUserID())
                 .build();
     }
 
-    public UserEntity saveNewUser(CreateUserRequest request){
+    private void validateRequest(CreateUserRequest request) {
+        if (request.getUsername() == null || request.getUsername().isEmpty()) {
+            throw new IllegalArgumentException("Invalid request: username is null or empty");
+        }
+        // Add more validations as needed
+    }
+
+    public UserEntity saveNewUser(CreateUserRequest request) {
         UserRoleEntity role = roleRepository.findByRole(RoleEnum.USER);
+        if (role == null) {
+            throw new IllegalArgumentException("Role not found: " + RoleEnum.USER);
+        }
         request.setUserRole(role);
         String encodedPassword = passwordEncoder.encode(request.getPassword());
         UserEntity newUser = UserEntity.builder()

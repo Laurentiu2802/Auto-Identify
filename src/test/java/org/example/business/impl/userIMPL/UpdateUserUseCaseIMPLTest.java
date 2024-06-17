@@ -29,7 +29,6 @@ class UpdateUserUseCaseIMPLTest {
 
     @Test
     void updateUser_ShouldUpdateUser_WhenUserExists() {
-        // Given
         Long userId = 1L;
         UpdateUserRequest request = UpdateUserRequest.builder()
                 .userID(userId)
@@ -47,14 +46,11 @@ class UpdateUserUseCaseIMPLTest {
 
         when(userRepository.findByUserID(userId)).thenReturn(Optional.of(existingUserEntity));
 
-        // When
         updateUserUseCase.updateUser(request);
 
-        // Then
         verify(userRepository).findByUserID(userId);
-        verify(userRepository).save(existingUserEntity); // Verify that the repository's save method is called
+        verify(userRepository).save(existingUserEntity);
 
-        // Verify the UserEntity object has been updated
         assertEquals("newUsername", existingUserEntity.getUsername());
         assertEquals("newPassword", existingUserEntity.getPassword());
         assertEquals("newDescription", existingUserEntity.getDescription());
@@ -62,7 +58,7 @@ class UpdateUserUseCaseIMPLTest {
 
     @Test
     void updateUser_ShouldThrowException_WhenUserDoesNotExist() {
-        // Given
+
         Long userId = 2L;
         UpdateUserRequest request = UpdateUserRequest.builder()
                 .userID(userId)
@@ -73,7 +69,6 @@ class UpdateUserUseCaseIMPLTest {
 
         when(userRepository.findByUserID(userId)).thenReturn(Optional.empty());
 
-        // When & Then
         Exception exception = assertThrows(NoSuchElementException.class, () -> {
             updateUserUseCase.updateUser(request);
         });
