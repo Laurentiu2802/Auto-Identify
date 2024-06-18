@@ -20,7 +20,7 @@ public class CreatePostUseCaseIMPL implements CreatePostUseCase {
     private final CarBrandRepository carBrandRepository;
     private final CarModelRepository carModelRepository;
 
-    private static final String Error = "is not existent";
+    private static final String Error = " is not existent";
 
     @Transactional
     @Override

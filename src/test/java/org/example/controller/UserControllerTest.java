@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
 import java.util.Collections;
+import java.util.Optional;
 
 
 import static org.mockito.ArgumentMatchers.any;
@@ -45,6 +46,9 @@ class UserControllerTest {
 
     @Mock
     private LogInUseCase logInUseCase;
+
+    @Mock
+    private GetUserDetailsUseCase getUserDetailsUseCase;
 
     @InjectMocks
     private UserController userController;
@@ -146,4 +150,33 @@ class UserControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.token").value("token")); // Use $.token to match the mapped property
     }
+
+    @Test
+    void getUserDetails_UserExists_ShouldReturnUser() throws Exception {
+        long userId = 1L;
+        User user = User.builder()
+                .userID(userId)
+                .username("exampleUser")
+                .description("description")
+                .build();
+
+        when(getUserDetailsUseCase.getUser(userId)).thenReturn(Optional.of(user));
+
+        mockMvc.perform(get("/users/userDetails/{id}", userId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.userID").value(userId))
+                .andExpect(jsonPath("$.username").value("exampleUser"))
+                .andExpect(jsonPath("$.description").value("description"));
+    }
+
+    @Test
+    void getUserDetails_UserNotFound_ShouldReturnNotFound() throws Exception {
+        long userId = 1L;
+
+        when(getUserDetailsUseCase.getUser(userId)).thenReturn(Optional.empty());
+
+        mockMvc.perform(get("/users/userDetails/{id}", userId))
+                .andExpect(status().isNotFound());
+    }
+
 }

@@ -24,13 +24,12 @@ public class LogInUseCaseImpl implements LogInUseCase {
     public LogInResponse loginUser(LogInRequest request) {
 
         Optional<UserEntity> user = userRepository.findByUsername(request.getUsername());
-        if (user == null) {
-            //throw new InvalidCredentialsException();
+        if (!user.isPresent()) {
+            throw new RuntimeException("User not found");
         }
-
-//        if (!matchesPassword(request.getPassword(), user.get().getPassword())) {
-//            //throw new InvalidCredentialsException();
-//        }
+        if (!matchesPassword(request.getPassword(), user.get().getPassword())) {
+            throw new RuntimeException("Invalid password");
+        }
 
         String accessToken = generateAccessToken(user.get());
         return LogInResponse.builder().accessToken(accessToken).build();

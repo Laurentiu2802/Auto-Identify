@@ -19,6 +19,8 @@ public class PostConverter {
         CarBrand carBrand = CarBrandConverter.convert(post.getCarBrand());
         CarModel carModel = CarModelConverter.convert(post.getCarModel());
 
+
+
     return Post.builder()
             .postID(post.getPostID())
             .description(post.getDescription())
