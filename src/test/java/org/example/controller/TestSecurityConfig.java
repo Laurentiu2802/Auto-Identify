@@ -20,7 +20,6 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 @Import(WebSecurityConfig.class)
 public class TestSecurityConfig {
-
     @Bean
     public AccessTokenDecoder accessTokenDecoder() {
         return mock(AccessTokenDecoder.class);

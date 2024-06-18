@@ -9,6 +9,7 @@ import org.example.business.searchCriteria.*;
 import org.example.persistance.CarBrandRepository;
 import org.example.persistance.CarModelRepository;
 import org.example.persistance.CategoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,10 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class SearchCriteriaController {
+    @Autowired
+    private UpdateCarBrandUseCase updateCarBrandUseCase;
+
+
     private final CarBrandRepository carBrandRepository;
     private final CarModelRepository carModelRepository;
     private final CategoryRepository categoryRepository;
@@ -29,7 +34,7 @@ public class SearchCriteriaController {
     private final CreateCarModelUseCase createCarModelUseCase;
     private  final UpdateCategoryUseCase updateCategoryUseCase;
     private final UpdateCarModelUseCase updateCarModelUseCase;
-    private final UpdateCarBrandUseCase updateCarBrandUseCase;
+    //private final UpdateCarBrandUseCase updateCarBrandUseCase;
 
     //test for pipeline 2
     @PostMapping("/categoryCreate")
@@ -57,14 +62,14 @@ public class SearchCriteriaController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("{brandID}")
+    @PutMapping("/brand1/{brandID}")
     public ResponseEntity<Void> updateBrand(@PathVariable("brandID") long brandID, @RequestBody @Valid UpdateCarBrandRequest request){
         request.setBrandID(brandID);
         updateCarBrandUseCase.updateCarBrand(request);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("{modelID}")
+    @PutMapping("/model/{modelID}")
     public ResponseEntity<Void> updateModel(@PathVariable("modelID") long modelID, @RequestBody @Valid UpdateCarModelRequest request){
         request.setModelID((modelID));
         updateCarModelUseCase.updateCarModel(request);
