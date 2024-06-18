@@ -6,6 +6,9 @@ import org.example.business.dto.carBrandDTO.*;
 import org.example.business.dto.carModelDTO.*;
 import org.example.business.dto.categoryDTO.*;
 import org.example.business.searchCriteria.*;
+import org.example.domain.CarBrand;
+import org.example.domain.CarModel;
+import org.example.domain.Category;
 import org.example.persistance.CarBrandRepository;
 import org.example.persistance.CarModelRepository;
 import org.example.persistance.CategoryRepository;
@@ -13,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/search1")
@@ -35,6 +40,9 @@ public class SearchCriteriaController {
     private  final UpdateCategoryUseCase updateCategoryUseCase;
     private final UpdateCarModelUseCase updateCarModelUseCase;
     //private final UpdateCarBrandUseCase updateCarBrandUseCase;
+    private final GetCategoryByCategoryIDUseCase getCategoryByCategoryIDUseCase;
+    private final GetCarBrandByBrandIDUseCase getCarBrandByBrandIDUseCase;
+    private final GetCarModelByModelIDUseCase getCarModelByModelIDUseCase;
 
     //test for pipeline 2
     @PostMapping("/categoryCreate")
@@ -97,5 +105,32 @@ public class SearchCriteriaController {
         GetCarModelByCarBrand request = GetCarModelByCarBrand.builder().carBrandID(carBrandID).build();
         GetCarModelByCarBrandResponse response = getCarModelsUseCase.getCarModels(request);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(path = "category/getID/{categoryID}")
+    public ResponseEntity<Category> getCategory(@PathVariable(value = "categoryID") final long categoryID){
+        final Optional<Category> categoryOptional = getCategoryByCategoryIDUseCase.getCategory(categoryID);
+        if(categoryOptional.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(categoryOptional.get());
+    }
+
+    @GetMapping(path = "brand/getID/{brandID}")
+    public ResponseEntity<CarBrand> getBrand(@PathVariable(value = "brandID") final long brandID){
+        final Optional<CarBrand> brandOptional = getCarBrandByBrandIDUseCase.getBrand(brandID);
+        if(brandOptional.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(brandOptional.get());
+    }
+
+    @GetMapping(path = "model/getID/{modelID}")
+    public ResponseEntity<CarModel> getModel(@PathVariable(value = "modelID") final long modelID){
+        final Optional<CarModel> modelOptional = getCarModelByModelIDUseCase.getModel(modelID);
+        if(modelOptional.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(modelOptional.get());
     }
 }
