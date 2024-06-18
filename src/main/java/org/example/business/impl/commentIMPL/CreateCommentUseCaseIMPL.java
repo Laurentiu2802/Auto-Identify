@@ -23,7 +23,7 @@ public class CreateCommentUseCaseIMPL implements CreateCommentUseCase {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
 
-    private static final String Error = "is not existent";
+    private static final String Error = " is not existent";
 
     @Transactional
     @Override
@@ -45,7 +45,7 @@ public class CreateCommentUseCaseIMPL implements CreateCommentUseCase {
                 .build();
     }
 
-    private CommentEntity saveNewComment(CreateCommentRequest request){
+    public CommentEntity saveNewComment(CreateCommentRequest request){
         Optional<UserEntity> user = userRepository.findByUserID(request.getUserID());
         Optional<PostEntity> post = postRepository.findById(request.getPostID());
         if(user.isPresent()){

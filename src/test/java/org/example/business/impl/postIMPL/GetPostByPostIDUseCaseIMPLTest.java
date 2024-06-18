@@ -1,80 +1,4 @@
-//package org.example.business.impl.postIMPL;
-//
-//import org.example.business.impl.carBrandIMPL.CarBrandConverter;
-//import org.example.business.impl.carModeIMPL.CarModelConverter;
-//import org.example.business.impl.categoryIMPL.CategoryConverter;
-//import org.example.business.impl.userIMPL.UserConverter;
-//import org.example.domain.*;
-//import org.example.persistance.PostRepository;
-//import org.example.persistance.entity.*;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.api.extension.ExtendWith;
-//import org.mockito.InjectMocks;
-//import org.mockito.Mock;
-//import org.mockito.MockitoAnnotations;
-//import org.mockito.junit.jupiter.MockitoExtension;
-//import java.util.Optional;
-//import static org.mockito.Mockito.*;
-//import static org.junit.jupiter.api.Assertions.*;
-//
-//
-//@ExtendWith(MockitoExtension.class)
-//public class GetPostByPostIDUseCaseIMPLTest {
-//
-//    @Mock
-//    private PostRepository postRepository;
-//
-//    @InjectMocks
-//    private GetPostByPostIDUseCaseIMPL getPostByPostIDUseCase;
-//
-//    @BeforeEach
-//    void setUp() {
-//        MockitoAnnotations.initMocks(this);
-//    }
-//
-//    @Test
-//    void getPost_PostExists_ReturnsPost() {
-//        // Arrange
-//        long postId = 1L;
-//        PostEntity postEntity = new PostEntity();
-//        postEntity.setPostID(postId);
-//        postEntity.setDescription("Test Description");
-//
-//        UserEntity userEntity = new UserEntity();
-//        userEntity.setUserID(1L);
-//        postEntity.setUser(userEntity);
-//
-//        CategoryEntity categoryEntity = new CategoryEntity();
-//        categoryEntity.setCategoryID(1L);
-//        postEntity.setCategory(categoryEntity);
-//
-//        CarBrandEntity carBrandEntity = new CarBrandEntity();
-//        carBrandEntity.setCarBrandID(1L);
-//        postEntity.setCarBrand(carBrandEntity);
-//
-//        CarModelEntity carModelEntity = new CarModelEntity();
-//        carModelEntity.setCarModelID(1L);
-//        postEntity.setCarModel(carModelEntity);
-//
-//        // Mock repository behavior
-//        when(postRepository.findPostById(postId)).thenReturn(Optional.of(postEntity));
-//
-//        // Act
-//        Optional<Post> result = getPostByPostIDUseCaseIMPL.getPost(postId);
-//
-//        // Debugging: Print the result to understand what's happening
-//        System.out.println("Result: " + result);
-//
-//        // Assert
-//        assertTrue(result.isPresent(), "Expected post to be present");
-//        Post post = result.get();
-//        assertTrue(post.getPostID() == postId, "Expected postID to match");
-//        assertTrue(post.getDescription().equals("Test Description"), "Expected description to match");
-//        // Add more assertions as needed to verify the fields
-//    }
-//}
-//
+
 //    @Test
 //    void getPost_PostDoesNotExist_ReturnsEmptyOptional() {
 //        // Arrange
@@ -130,7 +54,6 @@ class GetPostByPostIDUseCaseIMPLTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
-
     @Test
     void getPost_withValidID_shouldReturnPost() {
         // Arrange
