@@ -5,15 +5,12 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.example.business.Post.*;
 import org.example.business.dto.postDTO.*;
-import org.example.business.dto.userDTO.CreateUserResponse;
-import org.example.business.dto.userDTO.GetUsersResponse;
 import org.example.business.impl.postIMPL.PostConverter;
 import org.example.domain.Post;
 import org.example.persistance.PostRepository;
 import org.example.persistance.entity.PostEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,7 +25,7 @@ public class PostController {
     private final PostRepository postRepository;
     private final CreatePostUseCase createPostUseCase;
     private final GetAllPostsUseCase getAllPostsUseCase;
-    private final GetPostByCriteriaUseCase getPostByCriteriaUseCase;
+    //private final GetPostByCriteriaUseCase getPostByCriteriaUseCase;
     private final CountPostsUseCase countPostsUseCase;
     private final GetPostByIDUseCase getPostByIDUseCase;
 

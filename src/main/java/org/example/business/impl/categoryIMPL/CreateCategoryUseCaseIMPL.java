@@ -16,12 +16,18 @@ public class CreateCategoryUseCaseIMPL implements CreateCategoryUseCase {
     @Override
     public CreateCategoryResponse createCategory(CreateCategoryRequest request){
         CategoryEntity savedCategory = saveNewCategory(request);
+        if (savedCategory == null) {
+            return null;
+        }
         return CreateCategoryResponse.builder()
                 .categoryID(savedCategory.getCategoryID())
                 .build();
     }
 
     public CategoryEntity saveNewCategory(CreateCategoryRequest request){
+        if (request.getCategoryName() == null || request.getCategoryName().trim().isEmpty()) {
+            return null;
+        }
         CategoryEntity newCategory = CategoryEntity.builder()
                 .categoryName(request.getCategoryName())
                 .build();

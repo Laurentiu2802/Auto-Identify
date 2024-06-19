@@ -14,7 +14,10 @@ public class CreateCarBrandUseCaseIMPL implements CreateCarBrandUseCase {
     private final CarBrandRepository carBrandRepository;
 
     @Override
-    public CreateCarBrandResponse createCarBrand(CreateCarBrandRequest request){
+    public CreateCarBrandResponse createCarBrand(CreateCarBrandRequest request) {
+        if (request.getBrandName() == null || request.getBrandName().isEmpty()) {
+            throw new IllegalArgumentException("Brand name cannot be null or empty");
+        }
         CarBrandEntity savedCarBrand = saveNewCarBrand(request);
         return CreateCarBrandResponse.builder()
                 .brandID(savedCarBrand.getCarBrandID())

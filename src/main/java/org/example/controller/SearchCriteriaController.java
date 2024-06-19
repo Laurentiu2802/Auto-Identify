@@ -63,7 +63,7 @@ public class SearchCriteriaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PutMapping("{categoryID}")
+    @PutMapping("/updatecategory/{categoryID}")
     public ResponseEntity<Void> updateCategory(@PathVariable("categoryID") long categoryID, @RequestBody @Valid UpdateCategoryRequest request){
         request.setCategoryID(categoryID);
         updateCategoryUseCase.updateCategory(request);

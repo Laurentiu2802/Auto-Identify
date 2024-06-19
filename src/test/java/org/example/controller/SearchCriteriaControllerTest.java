@@ -14,10 +14,7 @@ import org.example.persistance.entity.CarBrandEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -28,15 +25,17 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(SearchCriteriaController.class)
-@Import(TestSecurityConfig.class)
+@Import({TestSecurityConfig.class})
 public class SearchCriteriaControllerTest {
 
     @Autowired
@@ -77,6 +76,15 @@ public class SearchCriteriaControllerTest {
 
     @MockBean
     private UpdateCarBrandUseCase updateCarBrandUseCase;
+
+    @MockBean
+    private GetCategoryByCategoryIDUseCase getCategoryByCategoryIDUseCase;
+
+    @MockBean
+    private GetCarBrandByBrandIDUseCase getCarBrandByBrandIDUseCase;
+
+    @MockBean
+    private GetCarModelByModelIDUseCase getCarModelByModelIDUseCase;
 
 
     @Test
@@ -201,33 +209,102 @@ public class SearchCriteriaControllerTest {
                 .andExpect(jsonPath("$.carModels[1].modelName").value("Model2"));
     }
 
-//    @Test
-//    void updateCategory_shouldUpdateCategory() throws Exception {
-//        mockMvc.perform(put("/search1/category/1")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content("{\"categoryName\":\"Updated Category\"}"))
-//                .andExpect(status().isNoContent());
-//    }
-//
-//    @Test
-//    void updateCarBrand_shouldUpdateCarBrand() throws Exception {
-//        // Mock the behavior of the use case
-//        doNothing().when(updateCarBrandUseCase).updateCarBrand(ArgumentMatchers.any(UpdateCarBrandRequest.class));
-//
-//        mockMvc.perform(put("/search1/brand1/1")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content("{\"brandName\":\"Updated Brand\"}"))
-//                .andExpect(status().isNoContent());
-//
-//        // Verify that the use case method was called once
-//        verify(updateCarBrandUseCase, times(1)).updateCarBrand(ArgumentMatchers.any(UpdateCarBrandRequest.class));
-//    }
-//
-//    @Test
-//    void updateCarModel_shouldUpdateCarModel() throws Exception {
-//        mockMvc.perform(put("/search1/model/1")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content("{\"modelName\":\"Updated Model\"}"))
-//                .andExpect(status().isNoContent());
-//    }
+    @Test
+    void updateCategory_shouldUpdateCategory() throws Exception {
+        mockMvc.perform(put("/search1/updatecategory/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"categoryName\":\"Updated Category\"}"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void updateCarBrand_shouldUpdateCarBrand() throws Exception {
+        mockMvc.perform(put("/search1/brand1/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"brandName\":\"Updated Brand\"}"))
+                .andExpect(status().isOk());
+        //verify(updateCarBrandUseCase, times(1)).updateCarBrand(ArgumentMatchers.any(UpdateCarBrandRequest.class));
+    }
+
+    @Test
+    void updateCarModel_shouldUpdateCarModel() throws Exception {
+        mockMvc.perform(put("/search1/model/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"modelName\":\"Updated Model\"}"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getCategory_WhenCategoryFound_ShouldReturnCategory() throws Exception {
+        long categoryID = 1L;
+        Category mockCategory = new Category(categoryID, "Fun facts");
+        Mockito.when(getCategoryByCategoryIDUseCase.getCategory(categoryID))
+                .thenReturn(Optional.of(mockCategory));
+
+        mockMvc.perform(get("/search1/category/getID/{categoryID}", categoryID))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.categoryID").value(categoryID))
+                .andExpect(jsonPath("$.categoryName").value("Fun facts"));
+    }
+
+    @Test
+    void getCategory_WhenCategoryNotFound_ShouldReturnNotFound() throws Exception {
+        long categoryID = 1L;
+        Mockito.when(getCategoryByCategoryIDUseCase.getCategory(categoryID))
+                .thenReturn(Optional.empty());
+
+        mockMvc.perform(get("/search1/category/getID/{categoryID}", categoryID))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void getBrand_WhenBrandFound_ShouldReturnBrand() throws Exception {
+        long brandID = 1L;
+        CarBrand mockBrand = new CarBrand(brandID, "Toyota");
+        Mockito.when(getCarBrandByBrandIDUseCase.getBrand(brandID))
+                .thenReturn(Optional.of(mockBrand));
+
+        mockMvc.perform(get("/search1/brand/getID/{brandID}", brandID))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.brandID").value(brandID))
+                .andExpect(jsonPath("$.brandName").value("Toyota"));
+    }
+
+    @Test
+    void getBrand_WhenBrandNotFound_ShouldReturnNotFound() throws Exception {
+        long brandID = 1L;
+        Mockito.when(getCarBrandByBrandIDUseCase.getBrand(brandID))
+                .thenReturn(Optional.empty());
+
+        mockMvc.perform(get("/search1/brand/getID/{brandID}", brandID))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void getModel_WhenModelFound_ShouldReturnModel() throws Exception {
+        long modelID = 1L;
+        long brandID = 1L;
+        CarBrand mockBrand = new CarBrand(brandID, "Toyota");
+        CarModel mockModel = new CarModel(modelID, "Corolla", mockBrand);
+
+        Mockito.when(getCarModelByModelIDUseCase.getModel(modelID))
+                .thenReturn(Optional.of(mockModel));
+
+        mockMvc.perform(get("/search1/model/getID/{modelID}", modelID))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.modelID").value(modelID))
+                .andExpect(jsonPath("$.modelName").value("Corolla"));
+                //.andExpect(jsonPath("$.brandName").value("Toyota"));  // Assuming there is a brandName field you want to test
+    }
+
+    @Test
+    void getModel_WhenModelNotFound_ShouldReturnNotFound() throws Exception {
+        long modelID = 1L;
+        Mockito.when(getCarModelByModelIDUseCase.getModel(modelID))
+                .thenReturn(Optional.empty());
+
+        mockMvc.perform(get("/search1/model/getID/{modelID}", modelID))
+                .andExpect(status().isNotFound());
+    }
+
 }
