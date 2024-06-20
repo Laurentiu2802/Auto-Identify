@@ -1,6 +1,5 @@
 package org.example.business.impl.carModelIMPLTest;
 
-
 import org.example.business.dto.carModelDTO.CreateCarModelRequest;
 import org.example.business.dto.carModelDTO.CreateCarModelResponse;
 import org.example.business.impl.carModeIMPL.CreateCarModelUseCaseIMPL;
@@ -8,6 +7,7 @@ import org.example.persistance.CarBrandRepository;
 import org.example.persistance.CarModelRepository;
 import org.example.persistance.entity.CarBrandEntity;
 import org.example.persistance.entity.CarModelEntity;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -33,16 +33,17 @@ class CreateCarModelUseCaseIMPLTest {
     private CreateCarModelUseCaseIMPL createCarModelUseCaseIMPL;
 
     @Test
-    void createCarModel_shouldCreate_whenBrandExists() {
+    void createCarModel_shouldReturnResponse_whenCarBrandExists() {
         // Arrange
-        long brandID = 1L;
-        CreateCarModelRequest request = new CreateCarModelRequest();
+        CreateCarModelRequest request = CreateCarModelRequest.builder()
+                .modelName("Test Model")
+                .brandID(1L)
+                .build();
+
         CarBrandEntity carBrandEntity = CarBrandEntity.builder()
-                .carBrandID(brandID)
+                .carBrandID(1L)
                 .brandName("Test Brand")
                 .build();
-        request.setModelName("Test Model");
-        request.setBrand(carBrandEntity);
 
         CarModelEntity carModelEntity = CarModelEntity.builder()
                 .modelID(1L)
@@ -50,7 +51,7 @@ class CreateCarModelUseCaseIMPLTest {
                 .carBrand(carBrandEntity)
                 .build();
 
-        when(carBrandRepository.findByCarBrandID(brandID)).thenReturn(Optional.of(carBrandEntity));
+        when(carBrandRepository.findByCarBrandID(1L)).thenReturn(Optional.of(carBrandEntity));
         when(carModelRepository.save(any(CarModelEntity.class))).thenReturn(carModelEntity);
 
         // Act
@@ -59,21 +60,17 @@ class CreateCarModelUseCaseIMPLTest {
         // Assert
         assertNotNull(response);
         assertEquals(1L, response.getModelID());
-        verify(carBrandRepository, times(1)).findByCarBrandID(brandID);
+        verify(carBrandRepository, times(1)).findByCarBrandID(1L);
         verify(carModelRepository, times(1)).save(any(CarModelEntity.class));
     }
 
     @Test
-    void createCarModel_shouldReturnNullBrand_whenBrandDoesNotExist() {
+    void createCarModel_shouldReturnResponse_whenCarBrandDoesNotExist() {
         // Arrange
-        long brandID = 1L;
-        CreateCarModelRequest request = new CreateCarModelRequest();
-        CarBrandEntity carBrandEntity = CarBrandEntity.builder()
-                .carBrandID(brandID)
-                .brandName("Test Brand")
+        CreateCarModelRequest request = CreateCarModelRequest.builder()
+                .modelName("Test Model")
+                .brandID(1L)
                 .build();
-        request.setModelName("Test Model");
-        request.setBrand(carBrandEntity);
 
         CarModelEntity carModelEntity = CarModelEntity.builder()
                 .modelID(1L)
@@ -81,7 +78,7 @@ class CreateCarModelUseCaseIMPLTest {
                 .carBrand(null)
                 .build();
 
-        when(carBrandRepository.findByCarBrandID(brandID)).thenReturn(Optional.empty());
+        when(carBrandRepository.findByCarBrandID(1L)).thenReturn(Optional.empty());
         when(carModelRepository.save(any(CarModelEntity.class))).thenReturn(carModelEntity);
 
         // Act
@@ -90,31 +87,29 @@ class CreateCarModelUseCaseIMPLTest {
         // Assert
         assertNotNull(response);
         assertEquals(1L, response.getModelID());
-        verify(carBrandRepository, times(1)).findByCarBrandID(brandID);
+        verify(carBrandRepository, times(1)).findByCarBrandID(1L);
         verify(carModelRepository, times(1)).save(any(CarModelEntity.class));
     }
 
     @Test
-    void createCarModel_shouldThrowException_whenRepositoryFails() {
+    void createCarModel_shouldThrowException_whenSaveFails() {
         // Arrange
-        long brandID = 1L;
-        CreateCarModelRequest request = new CreateCarModelRequest();
+        CreateCarModelRequest request = CreateCarModelRequest.builder()
+                .modelName("Test Model")
+                .brandID(1L)
+                .build();
+
         CarBrandEntity carBrandEntity = CarBrandEntity.builder()
-                .carBrandID(brandID)
+                .carBrandID(1L)
                 .brandName("Test Brand")
                 .build();
-        request.setModelName("Test Model");
-        request.setBrand(carBrandEntity);
 
-        when(carBrandRepository.findByCarBrandID(brandID)).thenThrow(new RuntimeException("Database Error"));
+        when(carBrandRepository.findByCarBrandID(1L)).thenReturn(Optional.of(carBrandEntity));
+        when(carModelRepository.save(any(CarModelEntity.class))).thenThrow(new RuntimeException("Save failed"));
 
         // Act & Assert
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            createCarModelUseCaseIMPL.createCarModel(request);
-        });
-
-        assertEquals("Database Error", exception.getMessage());
-        verify(carBrandRepository, times(1)).findByCarBrandID(brandID);
-        verify(carModelRepository, never()).save(any(CarModelEntity.class));
+        assertThrows(RuntimeException.class, () -> createCarModelUseCaseIMPL.createCarModel(request));
+        verify(carBrandRepository, times(1)).findByCarBrandID(1L);
+        verify(carModelRepository, times(1)).save(any(CarModelEntity.class));
     }
 }

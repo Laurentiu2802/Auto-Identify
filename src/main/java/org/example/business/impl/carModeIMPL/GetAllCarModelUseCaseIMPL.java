@@ -20,7 +20,7 @@ public class GetAllCarModelUseCaseIMPL implements GetCarModelsUseCase {
 
     @Override
     public GetCarModelByCarBrandResponse getCarModels(GetCarModelByCarBrand request){
-        List<CarModelEntity> carModelResults = carModelRepository.findAllByCarBrandId(request.getCarBrandID());
+        List<CarModelEntity> carModelResults = carModelRepository.findAllByCarBrandId(request.getBrandID());
 
         final GetCarModelByCarBrandResponse response = new GetCarModelByCarBrandResponse();
         List<CarModel> carModels = carModelResults

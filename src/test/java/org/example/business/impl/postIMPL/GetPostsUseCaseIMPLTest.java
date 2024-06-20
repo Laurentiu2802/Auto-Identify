@@ -11,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Sort;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -79,7 +80,7 @@ class GetPostsUseCaseIMPLTest {
 
         List<PostEntity> postEntities = Arrays.asList(postEntity1, postEntity2);
 
-        when(postRepository.findAll()).thenReturn(postEntities);
+        when(postRepository.findAll(Sort.by("postID").descending())).thenReturn(postEntities);
         when(postRepository.countLikesForPost(1L)).thenReturn(10L);
         when(postRepository.countLikesForPost(2L)).thenReturn(20L);
 
@@ -105,9 +106,9 @@ class GetPostsUseCaseIMPLTest {
         // Arrange
         GetAllPostsRequest request = new GetAllPostsRequest();
 
-        when(postRepository.findAll()).thenReturn(Collections.emptyList());
+        when(postRepository.findAll(Sort.by("postID").descending())).thenReturn(Collections.emptyList());
 
-        // Act
+        // Actx1
         GetAllPostsResponse response = getPostsUseCaseIMPL.getAllPosts(request);
 
         // Assert

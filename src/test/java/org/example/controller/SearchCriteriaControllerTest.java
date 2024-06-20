@@ -136,7 +136,7 @@ public class SearchCriteriaControllerTest {
         // CreateCarModelRequest expects a CarBrandEntity
         CreateCarModelRequest request = CreateCarModelRequest.builder()
                 .modelName("Test Model")
-                .brand(carBrandEntity)
+                .brandID(carBrandEntity.getCarBrandID())
                 .build();
 
         CreateCarModelResponse response = CreateCarModelResponse.builder()

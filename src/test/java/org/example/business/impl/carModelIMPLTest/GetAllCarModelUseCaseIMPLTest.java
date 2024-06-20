@@ -32,7 +32,7 @@ class GetAllCarModelUseCaseIMPLTest {
         // Arrange
         long carBrandID = 1L;
         GetCarModelByCarBrand request = GetCarModelByCarBrand.builder()
-                .carBrandID(carBrandID)
+                .brandID(carBrandID)
                 .build();
 
         CarModelEntity carModelEntity1 = CarModelEntity.builder()
@@ -60,7 +60,7 @@ class GetAllCarModelUseCaseIMPLTest {
         // Arrange
         long carBrandID = 1L;
         GetCarModelByCarBrand request = GetCarModelByCarBrand.builder()
-                .carBrandID(carBrandID)
+                .brandID(carBrandID)
                 .build();
 
         when(carModelRepository.findAllByCarBrandId(carBrandID)).thenReturn(Collections.emptyList());
@@ -79,7 +79,7 @@ class GetAllCarModelUseCaseIMPLTest {
         // Arrange
         long carBrandID = 1L;
         GetCarModelByCarBrand request = GetCarModelByCarBrand.builder()
-                .carBrandID(carBrandID)
+                .brandID(carBrandID)
                 .build();
 
         when(carModelRepository.findAllByCarBrandId(carBrandID)).thenThrow(new RuntimeException("Database Error"));

@@ -100,9 +100,9 @@ public class SearchCriteriaController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping(path = "models/{carBrandID}")
-    public ResponseEntity<GetCarModelByCarBrandResponse> getCarModels(@PathVariable(value = "carBrandID") long carBrandID){
-        GetCarModelByCarBrand request = GetCarModelByCarBrand.builder().carBrandID(carBrandID).build();
+    @GetMapping(path = "models/{brandID}")
+    public ResponseEntity<GetCarModelByCarBrandResponse> getCarModels(@PathVariable(value = "brandID") long brandID){
+        GetCarModelByCarBrand request = GetCarModelByCarBrand.builder().brandID(brandID).build();
         GetCarModelByCarBrandResponse response = getCarModelsUseCase.getCarModels(request);
         return ResponseEntity.ok(response);
     }

@@ -28,8 +28,8 @@ public class CreateCarModelUseCaseIMPL implements CreateCarModelUseCase {
     }
 
     public CarModelEntity saveNewCarModel(CreateCarModelRequest request){
-        Optional<CarBrandEntity> carBrand = carBrandRepository.findByCarBrandID(request.getBrand().getCarBrandID());
-        request.setBrand(carBrand.orElse(null));
+        Optional<CarBrandEntity> carBrand = carBrandRepository.findByCarBrandID(request.getBrandID());
+
         CarModelEntity newCarModel = CarModelEntity.builder()
                 .carBrand(carBrand.orElse(null))
                 .modelName(request.getModelName())

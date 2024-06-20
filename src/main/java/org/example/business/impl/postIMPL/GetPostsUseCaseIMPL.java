@@ -7,6 +7,7 @@ import org.example.business.dto.postDTO.GetAllPostsResponse;
 import org.example.domain.Post;
 import org.example.persistance.PostRepository;
 import org.example.persistance.entity.PostEntity;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class GetPostsUseCaseIMPL implements GetAllPostsUseCase {
     @Override
     public GetAllPostsResponse getAllPosts(GetAllPostsRequest request) {
 
-        List<PostEntity> postsResults = postRepository.findAll();
+        List<PostEntity> postsResults = postRepository.findAll(Sort.by("postID").descending());
 
         final GetAllPostsResponse response = new GetAllPostsResponse();
         List<Post> posts = postsResults

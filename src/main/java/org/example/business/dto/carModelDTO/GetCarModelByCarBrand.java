@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetCarModelByCarBrand {
 //    private Long carModelID;
-    private Long carBrandID;
+    private Long brandID;
 }

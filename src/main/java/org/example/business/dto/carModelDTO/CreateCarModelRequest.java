@@ -13,7 +13,7 @@ import org.example.persistance.entity.CarBrandEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateCarModelRequest {
-    private CarBrandEntity brand;
+    private Long brandID;
     @NotBlank
     private String modelName;
 
