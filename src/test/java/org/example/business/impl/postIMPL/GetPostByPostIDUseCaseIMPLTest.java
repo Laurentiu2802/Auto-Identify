@@ -1,29 +1,3 @@
-
-//    @Test
-//    void getPost_PostDoesNotExist_ReturnsEmptyOptional() {
-//        // Arrange
-//        long postId = 1L;
-//        when(postRepository.findPostById(postId)).thenReturn(Optional.empty());
-//
-//        // Act
-//        Optional<Post> result = getPostByPostIDUseCase.getPost(postId);
-//
-//        // Assert
-//        assertFalse(result.isPresent(), "The result should be empty as the post does not exist");
-//    }
-//
-//    @Test
-//    void getPost_RepositoryThrowsException_ThrowsException() {
-//        // Arrange
-//        long postId = 1L;
-//        when(postRepository.findPostById(postId)).thenThrow(new RuntimeException("Database error"));
-//
-//        // Act & Assert
-//        assertThrows(RuntimeException.class, () -> getPostByPostIDUseCase.getPost(postId), "Should throw an exception when the repository fails");
-//    }
-//}
-
-
 package org.example.business.impl.postIMPL;
 
 import org.example.domain.Post;
@@ -34,15 +8,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
 class GetPostByPostIDUseCaseIMPLTest {
 
     @Mock
@@ -51,10 +24,6 @@ class GetPostByPostIDUseCaseIMPLTest {
     @InjectMocks
     private GetPostByPostIDUseCaseIMPL getPostByPostIDUseCaseIMPL;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
     @Test
     void getPost_withValidID_shouldReturnPost() {
         // Arrange
@@ -87,7 +56,7 @@ class GetPostByPostIDUseCaseIMPLTest {
         Optional<Post> result = getPostByPostIDUseCaseIMPL.getPost(postID);
 
         // Assert
-        assertEquals(true, result.isPresent());
+        assertTrue(result.isPresent());
         Post post = result.get();
         assertEquals(postID, post.getPostID());
         assertEquals("Post description", post.getDescription());
@@ -106,6 +75,26 @@ class GetPostByPostIDUseCaseIMPLTest {
         assertFalse(result.isPresent());
     }
 
+    @Test
+    void getPost_PostDoesNotExist_ReturnsEmptyOptional() {
+        // Arrange
+        long postId = 1L;
+        when(postRepository.findPostById(postId)).thenReturn(Optional.empty());
 
+        // Act
+        Optional<Post> result = getPostByPostIDUseCaseIMPL.getPost(postId);
+
+        // Assert
+        assertFalse(result.isPresent(), "The result should be empty as the post does not exist");
+    }
+
+    @Test
+    void getPost_RepositoryThrowsException_ThrowsException() {
+        // Arrange
+        long postId = 1L;
+        when(postRepository.findPostById(postId)).thenThrow(new RuntimeException("Database error"));
+
+        // Act & Assert
+        assertThrows(RuntimeException.class, () -> getPostByPostIDUseCaseIMPL.getPost(postId), "Should throw an exception when the repository fails");
+    }
 }
-

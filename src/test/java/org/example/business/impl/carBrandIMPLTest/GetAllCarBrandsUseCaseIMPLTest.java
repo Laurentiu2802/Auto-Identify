@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
@@ -19,6 +18,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
 class GetAllCarBrandsUseCaseIMPLTest {
 
     @Mock
@@ -26,11 +27,6 @@ class GetAllCarBrandsUseCaseIMPLTest {
 
     @InjectMocks
     private GetAllCarBrandsUseCaseIMPL getAllCarBrandsUseCaseIMPL;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     void getBrands_shouldReturnAllBrands_whenBrandsExist() {

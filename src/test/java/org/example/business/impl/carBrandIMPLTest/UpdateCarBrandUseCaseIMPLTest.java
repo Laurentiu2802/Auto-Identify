@@ -6,9 +6,10 @@ import org.example.persistance.CarBrandRepository;
 import org.example.persistance.entity.CarBrandEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -16,6 +17,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class UpdateCarBrandUseCaseIMPLTest {
 
     @Mock
@@ -23,11 +25,6 @@ class UpdateCarBrandUseCaseIMPLTest {
 
     @InjectMocks
     private UpdateCarBrandUseCaseIMPL updateCarBrandUseCaseIMPL;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     void updateCarBrand_shouldUpdate_whenBrandExists() {

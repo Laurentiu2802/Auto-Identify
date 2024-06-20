@@ -10,12 +10,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
 class CreateCarBrandUseCaseIMPLTest {
 
     @Mock
@@ -23,11 +24,6 @@ class CreateCarBrandUseCaseIMPLTest {
 
     @InjectMocks
     private CreateCarBrandUseCaseIMPL createCarBrandUseCaseIMPL;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     void createCarBrand_shouldReturnResponse_whenCarBrandIsCreatedSuccessfully() {

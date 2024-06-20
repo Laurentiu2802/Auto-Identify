@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.NoSuchElementException;
@@ -17,17 +16,13 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class UpdateUserUseCaseIMPLTest {
     @Mock
     private UserRepository userRepository;
 
     @InjectMocks
     private UpdateUserUseCaseIMPL updateUserUseCase;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     void updateUser_ShouldUpdateUser_WhenUserExists() {
@@ -60,7 +55,6 @@ class UpdateUserUseCaseIMPLTest {
 
     @Test
     void updateUser_ShouldThrowException_WhenUserDoesNotExist() {
-
         Long userId = 2L;
         UpdateUserRequest request = UpdateUserRequest.builder()
                 .userID(userId)
@@ -77,5 +71,4 @@ class UpdateUserUseCaseIMPLTest {
 
         assertEquals("User not found with ID: " + userId, exception.getMessage());
     }
-
 }
