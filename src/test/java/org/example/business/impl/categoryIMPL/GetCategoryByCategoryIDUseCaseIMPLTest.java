@@ -1,6 +1,5 @@
 package org.example.business.impl.categoryIMPL;
 
-import org.example.business.searchCriteria.GetCategoryByCategoryIDUseCase;
 import org.example.domain.Category;
 import org.example.persistance.CategoryRepository;
 import org.example.persistance.entity.CategoryEntity;

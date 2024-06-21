@@ -5,7 +5,6 @@ import org.example.business.dto.carBrandDTO.CreateCarBrandResponse;
 import org.example.business.impl.carBrandIMPL.CreateCarBrandUseCaseIMPL;
 import org.example.persistance.CarBrandRepository;
 import org.example.persistance.entity.CarBrandEntity;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

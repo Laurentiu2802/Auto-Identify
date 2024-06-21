@@ -2,8 +2,6 @@ package org.example.business.impl.postIMPL;
 
 import lombok.AllArgsConstructor;
 import org.example.business.Post.GetPostByCriteriaUseCase;
-import org.example.business.dto.postDTO.GetAllPostsRequest;
-import org.example.business.dto.postDTO.GetAllPostsResponse;
 import org.example.business.dto.postDTO.GetPostsByCriteriaRequest;
 import org.example.business.dto.postDTO.GetPostsByCriteriaResponse;
 import org.example.domain.Post;

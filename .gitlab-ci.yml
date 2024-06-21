@@ -10,7 +10,16 @@ before_script:
 stages:
   - build
   - test
+  - sonarqube
   - deploy
+
+sonarqube_analysis:
+  stage: sonarqube
+  script:
+    - ./gradlew jacocoTestReport sonarqube
+  only:
+    -main
+
 
 build:
   stage: build

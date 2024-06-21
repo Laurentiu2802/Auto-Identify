@@ -1,10 +1,8 @@
 package org.example.business.impl.carModeIMPL;
 
 import lombok.AllArgsConstructor;
-import org.example.business.dto.carBrandDTO.GetAllCarBrandsResponse;
 import org.example.business.dto.carModelDTO.GetCarModelByCarBrand;
 import org.example.business.dto.carModelDTO.GetCarModelByCarBrandResponse;
-import org.example.business.searchCriteria.GetAllCarBrandsUseCase;
 import org.example.business.searchCriteria.GetCarModelsUseCase;
 import org.example.domain.CarModel;
 import org.example.persistance.CarModelRepository;

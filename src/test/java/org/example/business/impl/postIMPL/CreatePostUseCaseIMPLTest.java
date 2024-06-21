@@ -7,7 +7,6 @@ import org.example.business.dto.postDTO.CreatePostRequest;
 import org.example.business.dto.postDTO.CreatePostResponse;
 import org.example.persistance.entity.*;
 import org.example.persistance.*;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

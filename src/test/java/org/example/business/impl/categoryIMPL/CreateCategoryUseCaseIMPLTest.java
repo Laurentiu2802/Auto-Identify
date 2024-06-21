@@ -2,7 +2,6 @@ package org.example.business.impl.categoryIMPL;
 
 import org.example.business.dto.categoryDTO.CreateCategoryRequest;
 import org.example.business.dto.categoryDTO.CreateCategoryResponse;
-import org.example.business.impl.categoryIMPL.CreateCategoryUseCaseIMPL;
 import org.example.persistance.CategoryRepository;
 import org.example.persistance.entity.CategoryEntity;
 import org.junit.jupiter.api.Test;

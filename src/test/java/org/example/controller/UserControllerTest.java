@@ -3,7 +3,6 @@ package org.example.controller;
 import org.example.business.dto.userDTO.*;
 import org.example.business.user.*;
 import org.example.domain.User;
-import org.example.persistance.entity.UserEntity;
 import org.example.persistance.entity.UserRoleEntity;
 import org.example.persistance.entity.RoleEnum;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +17,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
-import java.util.Collections;
 import java.util.Optional;
 
 

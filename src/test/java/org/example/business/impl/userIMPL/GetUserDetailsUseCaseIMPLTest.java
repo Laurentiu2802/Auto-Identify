@@ -1,4 +1,4 @@
-package org.example.business.impl.userIMPL;  // This is the package declaration.
+package org.example.business.impl.userIMPL;
 
 import org.example.domain.User;
 import org.example.persistance.UserRepository;
@@ -28,7 +28,7 @@ public class GetUserDetailsUseCaseIMPLTest {
     public void testGetUserFound() {
         // Arrange
         long userId = 1L;
-        UserRoleEntity role = new UserRoleEntity(); // Assuming a simple entity
+        UserRoleEntity role = new UserRoleEntity();
         UserEntity userEntity = UserEntity.builder()
                 .userID(userId)
                 .username("testUser")

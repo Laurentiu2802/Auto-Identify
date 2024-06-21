@@ -3,7 +3,6 @@ package org.example.business.impl.userIMPL;
 import org.example.business.dto.userDTO.UpdateUserRequest;
 import org.example.persistance.UserRepository;
 import org.example.persistance.entity.UserEntity;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

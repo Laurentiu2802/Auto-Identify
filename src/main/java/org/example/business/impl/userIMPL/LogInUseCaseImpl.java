@@ -6,7 +6,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.example.business.user.LogInUseCase;
 import org.example.Configuration.security.token.AccessTokenEncoder;
-import org.example.Configuration.security.token.AccessTokenDecoder;
 import org.example.business.dto.userDTO.LogInRequest;
 import org.example.business.dto.userDTO.LogInResponse;
 import org.example.persistance.UserRepository;

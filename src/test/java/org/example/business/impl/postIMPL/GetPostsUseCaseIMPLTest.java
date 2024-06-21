@@ -5,7 +5,6 @@ import org.example.business.dto.postDTO.GetAllPostsResponse;
 import org.example.domain.Post;
 import org.example.persistance.PostRepository;
 import org.example.persistance.entity.*;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

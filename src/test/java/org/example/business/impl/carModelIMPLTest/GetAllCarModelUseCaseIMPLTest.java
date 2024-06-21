@@ -3,7 +3,6 @@ package org.example.business.impl.carModelIMPLTest;
 import org.example.business.dto.carModelDTO.GetCarModelByCarBrand;
 import org.example.business.dto.carModelDTO.GetCarModelByCarBrandResponse;
 import org.example.business.impl.carModeIMPL.GetAllCarModelUseCaseIMPL;
-import org.example.domain.CarModel;
 import org.example.persistance.CarModelRepository;
 import org.example.persistance.entity.CarModelEntity;
 import org.junit.jupiter.api.Test;

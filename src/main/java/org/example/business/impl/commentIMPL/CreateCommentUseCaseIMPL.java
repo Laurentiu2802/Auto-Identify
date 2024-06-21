@@ -1,6 +1,5 @@
 package org.example.business.impl.commentIMPL;
 
-import jakarta.persistence.Access;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.example.business.Comment.CreateCommentUseCase;

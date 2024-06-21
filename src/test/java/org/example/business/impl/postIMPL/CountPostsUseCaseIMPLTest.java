@@ -7,7 +7,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
-import org.example.business.impl.postIMPL.CountPostsUseCaseIMPL;
 import org.example.persistance.PostRepository;
 import org.example.business.dto.postDTO.GetUserPostCountResponse;
 import org.example.domain.CountPosts;

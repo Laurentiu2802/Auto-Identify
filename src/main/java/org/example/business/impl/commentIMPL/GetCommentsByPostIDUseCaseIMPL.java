@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.example.business.Comment.GetCommentsByPostIDUseCase;
 import org.example.business.dto.commentDTO.GetCommentsByPostIDRequest;
 import org.example.business.dto.commentDTO.GetCommentsByPostIDResponse;
-import org.example.controller.CommentController;
 import org.example.domain.Comment;
 import org.example.persistance.CommentRepository;
 import org.example.persistance.entity.CommentEntity;

@@ -1,7 +1,6 @@
 package org.example.persistance;
 
 import org.example.persistance.entity.CarBrandEntity;
-import org.example.persistance.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

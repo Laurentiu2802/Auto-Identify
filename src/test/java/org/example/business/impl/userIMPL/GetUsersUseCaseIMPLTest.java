@@ -2,17 +2,14 @@ package org.example.business.impl.userIMPL;
 
 import org.example.business.dto.userDTO.GetUsersRequest;
 import org.example.business.dto.userDTO.GetUsersResponse;
-import org.example.domain.User;
 import org.example.persistance.UserRepository;
 import org.example.persistance.entity.RoleEnum;
 import org.example.persistance.entity.UserEntity;
 import org.example.persistance.entity.UserRoleEntity;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;

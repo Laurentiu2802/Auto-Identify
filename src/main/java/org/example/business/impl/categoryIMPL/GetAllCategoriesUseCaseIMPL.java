@@ -5,7 +5,6 @@ import org.example.business.dto.categoryDTO.GetAllCategoriesRequest;
 import org.example.business.dto.categoryDTO.GetAllCategoriesResponse;
 import org.example.business.searchCriteria.GetAllCategoriesUseCase;
 import org.example.domain.Category;
-import org.example.domain.Post;
 import org.example.persistance.CategoryRepository;
 import org.example.persistance.entity.CategoryEntity;
 import org.springframework.stereotype.Service;
