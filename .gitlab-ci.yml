@@ -18,7 +18,7 @@ sonarqube_analysis:
   script:
     - ./gradlew jacocoTestReport sonarqube
   only:
-    -main
+    - main
 
 
 build:
