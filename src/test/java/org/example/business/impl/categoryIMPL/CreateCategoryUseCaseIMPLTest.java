@@ -25,7 +25,6 @@ class CreateCategoryUseCaseIMPLTest {
 
     @Test
     void createCategory_shouldCreate_whenRequestIsValid() {
-        // Arrange
         CreateCategoryRequest request = new CreateCategoryRequest();
         request.setCategoryName("Test Category");
 
@@ -36,10 +35,8 @@ class CreateCategoryUseCaseIMPLTest {
 
         when(categoryRepository.save(any(CategoryEntity.class))).thenReturn(categoryEntity);
 
-        // Act
         CreateCategoryResponse response = createCategoryUseCaseIMPL.createCategory(request);
 
-        // Assert
         assertNotNull(response);
         assertEquals(1L, response.getCategoryID());
         verify(categoryRepository, times(1)).save(any(CategoryEntity.class));
@@ -47,13 +44,11 @@ class CreateCategoryUseCaseIMPLTest {
 
     @Test
     void createCategory_shouldHandleRepositoryException() {
-        // Arrange
         CreateCategoryRequest request = new CreateCategoryRequest();
         request.setCategoryName("Test Category");
 
         when(categoryRepository.save(any(CategoryEntity.class))).thenThrow(new RuntimeException("Database Error"));
 
-        // Act & Assert
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
             createCategoryUseCaseIMPL.createCategory(request);
         });
@@ -63,30 +58,24 @@ class CreateCategoryUseCaseIMPLTest {
     }
     @Test
     void createCategory_shouldReturnNull_whenCategoryNameIsEmpty() {
-        // Arrange
         CreateCategoryRequest request = new CreateCategoryRequest();
         request.setCategoryName("");
 
-        // Act
         CreateCategoryResponse response = createCategoryUseCaseIMPL.createCategory(request);
 
-        // Assert
         assertNull(response);
         verify(categoryRepository, never()).save(any(CategoryEntity.class));
     }
 
     @Test
     void createCategory_shouldHandleNullSavedCategory() {
-        // Arrange
         CreateCategoryRequest request = new CreateCategoryRequest();
         request.setCategoryName("Test Category");
 
         when(categoryRepository.save(any(CategoryEntity.class))).thenReturn(null);
 
-        // Act
         CreateCategoryResponse response = createCategoryUseCaseIMPL.createCategory(request);
 
-        // Assert
         assertNull(response);
         verify(categoryRepository, times(1)).save(any(CategoryEntity.class));
     }

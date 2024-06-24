@@ -25,7 +25,6 @@ class GetPostByPostIDUseCaseIMPLTest {
 
     @Test
     void getPost_withValidID_shouldReturnPost() {
-        // Arrange
         long postID = 1L;
 
         PostEntity postEntity = new PostEntity();
@@ -51,10 +50,8 @@ class GetPostByPostIDUseCaseIMPLTest {
 
         when(postRepository.findPostById(postID)).thenReturn(Optional.of(postEntity));
 
-        // Act
         Optional<Post> result = getPostByPostIDUseCaseIMPL.getPost(postID);
 
-        // Assert
         assertTrue(result.isPresent());
         Post post = result.get();
         assertEquals(postID, post.getPostID());
@@ -63,37 +60,29 @@ class GetPostByPostIDUseCaseIMPLTest {
 
     @Test
     void getPost_withInvalidID_shouldReturnEmpty() {
-        // Arrange
         long postID = 1L;
         when(postRepository.findPostById(postID)).thenReturn(Optional.empty());
 
-        // Act
         Optional<Post> result = getPostByPostIDUseCaseIMPL.getPost(postID);
 
-        // Assert
         assertFalse(result.isPresent());
     }
 
     @Test
     void getPost_PostDoesNotExist_ReturnsEmptyOptional() {
-        // Arrange
         long postId = 1L;
         when(postRepository.findPostById(postId)).thenReturn(Optional.empty());
 
-        // Act
         Optional<Post> result = getPostByPostIDUseCaseIMPL.getPost(postId);
 
-        // Assert
         assertFalse(result.isPresent(), "The result should be empty as the post does not exist");
     }
 
     @Test
     void getPost_RepositoryThrowsException_ThrowsException() {
-        // Arrange
         long postId = 1L;
         when(postRepository.findPostById(postId)).thenThrow(new RuntimeException("Database error"));
 
-        // Act & Assert
         assertThrows(RuntimeException.class, () -> getPostByPostIDUseCaseIMPL.getPost(postId), "Should throw an exception when the repository fails");
     }
 }

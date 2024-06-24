@@ -27,7 +27,6 @@ class GetCarModelByModelIDUseCaseIMPLTest {
 
     @Test
     void getModel_shouldReturnModel_whenModelExists() {
-        // Arrange
         long modelID = 1L;
         CarModelEntity carModelEntity = CarModelEntity.builder()
                 .modelID(modelID)
@@ -37,10 +36,8 @@ class GetCarModelByModelIDUseCaseIMPLTest {
 
         when(carModelRepository.findById(modelID)).thenReturn(Optional.of(carModelEntity));
 
-        // Act
         Optional<CarModel> result = getCarModelByModelIDUseCaseIMPL.getModel(modelID);
 
-        // Assert
         assertTrue(result.isPresent());
         assertEquals(carModel, result.get());
         verify(carModelRepository, times(1)).findById(modelID);
@@ -48,25 +45,20 @@ class GetCarModelByModelIDUseCaseIMPLTest {
 
     @Test
     void getModel_shouldReturnEmpty_whenModelDoesNotExist() {
-        // Arrange
         long modelID = 1L;
         when(carModelRepository.findById(modelID)).thenReturn(Optional.empty());
 
-        // Act
         Optional<CarModel> result = getCarModelByModelIDUseCaseIMPL.getModel(modelID);
 
-        // Assert
         assertFalse(result.isPresent());
         verify(carModelRepository, times(1)).findById(modelID);
     }
 
     @Test
     void getModel_shouldHandleRepositoryException() {
-        // Arrange
         long modelID = 1L;
         when(carModelRepository.findById(modelID)).thenThrow(new RuntimeException("Database Error"));
 
-        // Act & Assert
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
             getCarModelByModelIDUseCaseIMPL.getModel(modelID);
         });

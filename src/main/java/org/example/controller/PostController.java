@@ -3,12 +3,14 @@ package org.example.controller;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.example.Configuration.security.token.AccessToken;
 import org.example.business.Post.*;
 import org.example.business.dto.postDTO.*;
 import org.example.business.impl.postIMPL.PostConverter;
 import org.example.domain.Post;
 import org.example.persistance.PostRepository;
 import org.example.persistance.entity.PostEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,12 +27,20 @@ public class PostController {
     private final PostRepository postRepository;
     private final CreatePostUseCase createPostUseCase;
     private final GetAllPostsUseCase getAllPostsUseCase;
-    //private final GetPostByCriteriaUseCase getPostByCriteriaUseCase;
     private final CountPostsUseCase countPostsUseCase;
     private final GetPostByIDUseCase getPostByIDUseCase;
 
+    @Autowired
+    private AccessToken authUser;
+
     @PostMapping()
     public ResponseEntity<CreatePostResponse> createPost(@RequestBody @Valid CreatePostRequest request){
+        long authUserID = authUser.getStudentId();
+
+        if(request.getUserID() != authUserID){
+            return  ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
         CreatePostResponse response = createPostUseCase.createPost(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

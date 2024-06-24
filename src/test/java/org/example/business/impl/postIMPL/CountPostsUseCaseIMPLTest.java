@@ -26,29 +26,23 @@ public class CountPostsUseCaseIMPLTest {
 
     @Test
     void getUserPostCount_WhenNoPosts_ShouldReturnEmptyList() {
-        // Arrange
         when(postRepository.getUserPostCounts()).thenReturn(Collections.emptyList());
 
-        // Act
         GetUserPostCountResponse response = countPostsUseCase.getUserPostCount();
 
-        // Assert
         assertTrue(response.getUserPostCount().isEmpty(), "The list of post counts should be empty");
     }
 
     @Test
     void getUserPostCount_WhenPostsExist_ShouldReturnCorrectCounts() {
-        // Arrange
         List<CountPosts> mockPostCounts = Arrays.asList(
                 new CountPosts(1L, "user1", 10L),
                 new CountPosts(2L, "user2", 15L)
         );
         when(postRepository.getUserPostCounts()).thenReturn(mockPostCounts);
 
-        // Act
         GetUserPostCountResponse response = countPostsUseCase.getUserPostCount();
 
-        // Assert
         assertNotNull(response.getUserPostCount(), "The response should not be null");
         assertEquals(2, response.getUserPostCount().size(), "There should be counts for two users");
         assertEquals(10, response.getUserPostCount().get(0).getPostCount(), "The post count for user1 should be 10");
@@ -57,10 +51,8 @@ public class CountPostsUseCaseIMPLTest {
 
     @Test
     void getUserPostCount_WhenRepositoryThrowsException() {
-        // Arrange
         when(postRepository.getUserPostCounts()).thenThrow(new RuntimeException("Database error"));
 
-        // Act & Assert
         Exception exception = assertThrows(RuntimeException.class, () -> {
             countPostsUseCase.getUserPostCount();
         });

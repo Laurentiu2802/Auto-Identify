@@ -28,7 +28,6 @@ class UpdateCarModelIMPLTest {
 
     @Test
     void updateCarModel_shouldUpdate_whenModelExists() {
-        // Arrange
         long modelID = 1L;
         UpdateCarModelRequest request = new UpdateCarModelRequest();
         request.setModelID(modelID);
@@ -41,10 +40,8 @@ class UpdateCarModelIMPLTest {
 
         when(carModelRepository.findById(modelID)).thenReturn(Optional.of(carModelEntity));
 
-        // Act
         updateCarModelIMPL.updateCarModel(request);
 
-        // Assert
         assertEquals("Updated Model", carModelEntity.getModelName());
         verify(carModelRepository, times(1)).findById(modelID);
         verify(carModelRepository, times(1)).save(carModelEntity);
@@ -52,7 +49,6 @@ class UpdateCarModelIMPLTest {
 
     @Test
     void updateCarModel_shouldThrowException_whenModelDoesNotExist() {
-        // Arrange
         long modelID = 1L;
         UpdateCarModelRequest request = new UpdateCarModelRequest();
         request.setModelID(modelID);
@@ -60,7 +56,6 @@ class UpdateCarModelIMPLTest {
 
         when(carModelRepository.findById(modelID)).thenReturn(Optional.empty());
 
-        // Act & Assert
         NoSuchElementException exception = assertThrows(NoSuchElementException.class, () -> {
             updateCarModelIMPL.updateCarModel(request);
         });
@@ -72,7 +67,6 @@ class UpdateCarModelIMPLTest {
 
     @Test
     void updateCarModel_shouldHandleRepositoryException() {
-        // Arrange
         long modelID = 1L;
         UpdateCarModelRequest request = new UpdateCarModelRequest();
         request.setModelID(modelID);
@@ -80,7 +74,7 @@ class UpdateCarModelIMPLTest {
 
         when(carModelRepository.findById(modelID)).thenThrow(new RuntimeException("Database Error"));
 
-        // Act & Assert
+
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
             updateCarModelIMPL.updateCarModel(request);
         });

@@ -49,19 +49,15 @@ class CreatePostUseCaseIMPLTest {
 
     @Test
     void createPost_UserDoesNotExist_ShouldThrowException() {
-        // Arrange
         CreatePostRequest request = new CreatePostRequest();
-        request.setUserID(1L); // Assuming the user ID is a Long and set to 1 for this test case
+        request.setUserID(1L);
 
-        // Mock the behavior of userRepository to return an empty Optional when findByUserID is called
         when(userRepository.findByUserID(anyLong())).thenReturn(Optional.empty());
 
-        // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             createPostUseCase.createPost(request);
         });
 
-        // Verify that the error message is correct
         assertEquals("User ID: 1 is not existent", exception.getMessage());
     }
 }

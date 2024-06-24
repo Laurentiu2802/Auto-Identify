@@ -29,13 +29,12 @@ class GetPostsByCriteriaUseCaseIMPLTest {
 
     @Test
     void getPosts_withValidCriteria_shouldReturnMatchingPosts() {
-        // Arrange
+
         GetPostsByCriteriaRequest request = new GetPostsByCriteriaRequest();
         request.setCategoryID(1L);
         request.setCarBrandID(2L);
         request.setCarModelID(3L);
 
-        // Create PostEntity 1
         PostEntity postEntity1 = new PostEntity();
         postEntity1.setPostID(1L);
         postEntity1.setDescription("Post 1 description");
@@ -57,7 +56,6 @@ class GetPostsByCriteriaUseCaseIMPLTest {
         carModelEntity1.setCarBrand(carBrandEntity1);
         postEntity1.setCarModel(carModelEntity1);
 
-        // Create PostEntity 2
         PostEntity postEntity2 = new PostEntity();
         postEntity2.setPostID(2L);
         postEntity2.setDescription("Post 2 description");
@@ -85,10 +83,8 @@ class GetPostsByCriteriaUseCaseIMPLTest {
         when(postRepository.countLikesForPost(1L)).thenReturn(10L);
         when(postRepository.countLikesForPost(2L)).thenReturn(20L);
 
-        // Act
         GetPostsByCriteriaResponse response = getPostsByCriteriaUseCaseIMPL.getPosts(request);
 
-        // Assert
         assertEquals(2, response.getPosts().size());
 
         Post post1 = response.getPosts().get(0);
@@ -104,7 +100,6 @@ class GetPostsByCriteriaUseCaseIMPLTest {
 
     @Test
     void getPosts_withNoMatchingCriteria_shouldReturnEmptyList() {
-        // Arrange
         GetPostsByCriteriaRequest request = new GetPostsByCriteriaRequest();
         request.setCategoryID(1L);
         request.setCarBrandID(2L);
@@ -112,16 +107,13 @@ class GetPostsByCriteriaUseCaseIMPLTest {
 
         when(postRepository.findPostsByCriteria(1L, 2L, 3L)).thenReturn(Collections.emptyList());
 
-        // Act
         GetPostsByCriteriaResponse response = getPostsByCriteriaUseCaseIMPL.getPosts(request);
 
-        // Assert
         assertEquals(0, response.getPosts().size());
     }
 
     @Test
     void getPosts_withNullCriteria_shouldHandleGracefully() {
-        // Arrange
         GetPostsByCriteriaRequest request = new GetPostsByCriteriaRequest();
         request.setCategoryID(null);
         request.setCarBrandID(null);
@@ -129,10 +121,8 @@ class GetPostsByCriteriaUseCaseIMPLTest {
 
         when(postRepository.findPostsByCriteria(null, null, null)).thenReturn(Collections.emptyList());
 
-        // Act
         GetPostsByCriteriaResponse response = getPostsByCriteriaUseCaseIMPL.getPosts(request);
 
-        // Assert
         assertEquals(0, response.getPosts().size());
     }
 }

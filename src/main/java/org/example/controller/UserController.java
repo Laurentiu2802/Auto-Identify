@@ -2,9 +2,11 @@ package org.example.controller;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.example.Configuration.security.token.AccessToken;
 import org.example.business.dto.userDTO.*;
 import org.example.business.user.*;
 import org.example.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,9 @@ public class UserController {
     private final LogInUseCase logInUseCase;
     private final GetUserDetailsUseCase getUserDetailsUseCase;
 
+    @Autowired
+    private AccessToken authUser;
+
     @GetMapping
     public ResponseEntity<GetUsersResponse> getUsers(){
         GetUsersRequest request = GetUsersRequest.builder().build();
@@ -38,6 +43,11 @@ public class UserController {
 
     @PutMapping("{id}")
     public ResponseEntity<Void> updateUser(@PathVariable("id") long id, @RequestBody @Valid UpdateUserRequest request){
+        long authUserID = authUser.getStudentId();
+
+        if(request.getUserID() != authUserID){
+            return  ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
         request.setUserID(id);
         updateUserUseCase.updateUser(request);
         return ResponseEntity.noContent().build();

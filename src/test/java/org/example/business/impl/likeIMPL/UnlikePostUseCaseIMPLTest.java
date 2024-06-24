@@ -47,26 +47,20 @@ public class UnlikePostUseCaseIMPLTest {
 
     @Test
     void unlikePost_shouldReturnSuccessTrue_whenLikeExists() {
-        // Arrange
         when(likeRepository.findByUserUserIDAndPostPostID(anyLong(), anyLong())).thenReturn(Optional.of(likeEntity));
 
-        // Act
         LikePostResponse response = unlikePostUseCase.unlikePost(likePostRequest);
 
-        // Assert
         assertTrue(response.isSuccess());
         verify(likeRepository, times(1)).delete(likeEntity);
     }
 
     @Test
     void unlikePost_shouldReturnSuccessFalse_whenLikeDoesNotExist() {
-        // Arrange
         when(likeRepository.findByUserUserIDAndPostPostID(anyLong(), anyLong())).thenReturn(Optional.empty());
 
-        // Act
         LikePostResponse response = unlikePostUseCase.unlikePost(likePostRequest);
 
-        // Assert
         assertFalse(response.isSuccess());
         verify(likeRepository, never()).delete(any(LikeEntity.class));
     }

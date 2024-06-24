@@ -39,9 +39,8 @@ public class LogInUseCaseIMPLTest {
 
     @BeforeEach
     void setUp() {
-        // Create a user entity to use in tests
-        UserRoleEntity role = new UserRoleEntity(); // Simulate the role setup
-        role.setRole(RoleEnum.USER); // Sample role
+        UserRoleEntity role = new UserRoleEntity();
+        role.setRole(RoleEnum.USER);
 
         userEntity = new UserEntity();
         userEntity.setUsername(username);
@@ -52,7 +51,6 @@ public class LogInUseCaseIMPLTest {
 
     @Test
     void testLoginUserSuccessful() {
-        // Arrange
         when(userRepository.findByUsername(username)).thenReturn(Optional.of(userEntity));
         when(passwordEncoder.matches(anyString(), anyString())).thenReturn(true);
         when(accessTokenEncoder.encode(any())).thenReturn("token");
@@ -61,17 +59,14 @@ public class LogInUseCaseIMPLTest {
         request.setUsername(username);
         request.setPassword(password);
 
-        // Act
         LogInResponse response = logInUseCase.loginUser(request);
 
-        // Assert
         assertNotNull(response);
         assertEquals("token", response.getAccessToken());
     }
 
     @Test
     void testLoginUserFailedPasswordIncorrect() {
-        // Arrange
         when(userRepository.findByUsername(username)).thenReturn(Optional.of(userEntity));
         when(passwordEncoder.matches(anyString(), anyString())).thenReturn(false);
 
@@ -79,20 +74,17 @@ public class LogInUseCaseIMPLTest {
         request.setUsername(username);
         request.setPassword("wrongPassword");
 
-        // Act & Assert
         assertThrows(RuntimeException.class, () -> logInUseCase.loginUser(request));
     }
 
     @Test
     void testLoginUserUsernameNotFound() {
-        // Arrange
         when(userRepository.findByUsername("unknown")).thenReturn(Optional.empty());
 
         LogInRequest request = new LogInRequest();
         request.setUsername("unknown");
         request.setPassword(password);
 
-        // Act & Assert
         assertThrows(RuntimeException.class, () -> logInUseCase.loginUser(request));
     }
 }

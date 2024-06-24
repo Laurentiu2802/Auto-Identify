@@ -28,4 +28,6 @@ public interface PostRepository extends JpaRepository<PostEntity, Long> {
 
     @Query("SELECT p FROM PostEntity p WHERE p.postID = :postID")
     Optional<PostEntity> findPostById(@Param("postID") Long postID);
+
+    void deleteByUser_UserID(Long userID);
 }

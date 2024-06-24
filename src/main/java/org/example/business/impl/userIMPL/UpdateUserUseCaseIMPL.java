@@ -3,6 +3,7 @@ package org.example.business.impl.userIMPL;
 import lombok.AllArgsConstructor;
 import org.example.business.dto.userDTO.UpdateUserRequest;
 import org.example.business.user.UpdateUserUseCase;
+import org.example.business.userException.InvalidUserIdException;
 import org.example.persistance.UserRepository;
 import org.example.persistance.entity.UserEntity;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,10 @@ public class UpdateUserUseCaseIMPL implements UpdateUserUseCase {
     @Override
     public void updateUser(UpdateUserRequest request){
         Optional<UserEntity> userOptional = userRepository.findByUserID(request.getUserID());
+
+        if(userOptional.isEmpty()){
+            throw new InvalidUserIdException("USER_ID_INVALID");
+        }
 
         if (userOptional.isPresent()) {
             UserEntity user = userOptional.get();

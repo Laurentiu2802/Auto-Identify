@@ -1,6 +1,7 @@
 package org.example.business.impl.userIMPL;
 
 import org.example.business.dto.userDTO.UpdateUserRequest;
+import org.example.business.userException.InvalidUserIdException;
 import org.example.persistance.UserRepository;
 import org.example.persistance.entity.UserEntity;
 import org.junit.jupiter.api.Test;
@@ -64,10 +65,12 @@ class UpdateUserUseCaseIMPLTest {
 
         when(userRepository.findByUserID(userId)).thenReturn(Optional.empty());
 
-        Exception exception = assertThrows(NoSuchElementException.class, () -> {
+        Exception exception = assertThrows(InvalidUserIdException.class, () -> {
             updateUserUseCase.updateUser(request);
         });
 
-        assertEquals("User not found with ID: " + userId, exception.getMessage());
+        assertEquals("400 BAD_REQUEST \"USER_ID_INVALID\"", exception.getMessage());
     }
+
+
 }

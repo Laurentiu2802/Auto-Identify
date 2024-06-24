@@ -124,13 +124,11 @@ public class SearchCriteriaControllerTest {
 
     @Test
     void createCarModel_shouldReturnCreatedCarModel() throws Exception {
-        // Mock CarBrandEntity
         CarBrandEntity carBrandEntity = CarBrandEntity.builder()
                 .carBrandID(1L)
                 .brandName("Test Brand")
                 .build();
 
-        // CreateCarModelRequest expects a CarBrandEntity
         CreateCarModelRequest request = CreateCarModelRequest.builder()
                 .modelName("Test Model")
                 .brandID(carBrandEntity.getCarBrandID())
@@ -220,7 +218,6 @@ public class SearchCriteriaControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"brandName\":\"Updated Brand\"}"))
                 .andExpect(status().isOk());
-        //verify(updateCarBrandUseCase, times(1)).updateCarBrand(ArgumentMatchers.any(UpdateCarBrandRequest.class));
     }
 
     @Test
@@ -291,7 +288,6 @@ public class SearchCriteriaControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.modelID").value(modelID))
                 .andExpect(jsonPath("$.modelName").value("Corolla"));
-                //.andExpect(jsonPath("$.brandName").value("Toyota"));  // Assuming there is a brandName field you want to test
     }
 
     @Test

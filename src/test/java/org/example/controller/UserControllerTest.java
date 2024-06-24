@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.Configuration.security.token.AccessToken;
 import org.example.business.dto.userDTO.*;
 import org.example.business.user.*;
 import org.example.domain.User;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -18,7 +20,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
 import java.util.Optional;
-
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -48,6 +49,9 @@ class UserControllerTest {
     @Mock
     private GetUserDetailsUseCase getUserDetailsUseCase;
 
+    @Mock
+    private AccessToken authUser;
+
     @InjectMocks
     private UserController userController;
 
@@ -56,6 +60,10 @@ class UserControllerTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
+
+
+        when(authUser.getStudentId()).thenReturn(1L);
+
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
     }
 
@@ -79,7 +87,6 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.users[0].username").value("user1"));
     }
 
-
     @Test
     void deleteUser_ShouldReturnNoContent() throws Exception {
         doNothing().when(deleteUserUseCase).DeleteUser(1L);
@@ -90,10 +97,8 @@ class UserControllerTest {
 
     @Test
     void updateUser_ShouldReturnNoContent() throws Exception {
-        // Mocking the update behavior
         doNothing().when(updateUserUseCase).updateUser(any(UpdateUserRequest.class));
 
-        // Creating the request object
         UpdateUserRequest request = UpdateUserRequest.builder()
                 .userID(1L)
                 .username("updatedUser")
@@ -101,7 +106,6 @@ class UserControllerTest {
                 .description("updatedDescription")
                 .build();
 
-        // Performing the request and expecting a 204 No Content response
         mockMvc.perform(put("/users/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
@@ -146,7 +150,7 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.token").value("token")); // Use $.token to match the mapped property
+                .andExpect(jsonPath("$.token").value("token"));
     }
 
     @Test

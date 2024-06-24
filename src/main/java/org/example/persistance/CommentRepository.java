@@ -10,4 +10,6 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<CommentEntity, Long> {
     @Query("SELECT c FROM CommentEntity c WHERE c.post.postID = :postID")
     List<CommentEntity> findAllByPostId(@Param("postID") Long postID);
+
+    void deleteByUser_UserID(Long userID);
 }

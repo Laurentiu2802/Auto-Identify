@@ -27,7 +27,6 @@ class GetAllCategoriesUseCaseIMPLTest {
 
     @Test
     void getCategories_shouldReturnCategories_whenCategoriesExist() {
-        // Arrange
         GetAllCategoriesRequest request = new GetAllCategoriesRequest();
 
         CategoryEntity categoryEntity1 = CategoryEntity.builder()
@@ -43,10 +42,8 @@ class GetAllCategoriesUseCaseIMPLTest {
         List<CategoryEntity> categoryEntities = List.of(categoryEntity1, categoryEntity2);
         when(categoryRepository.findAll()).thenReturn(categoryEntities);
 
-        // Act
         GetAllCategoriesResponse response = getAllCategoriesUseCaseIMPL.getCategories(request);
 
-        // Assert
         assertNotNull(response);
         assertEquals(2, response.getCategories().size());
         verify(categoryRepository, times(1)).findAll();
@@ -54,14 +51,11 @@ class GetAllCategoriesUseCaseIMPLTest {
 
     @Test
     void getCategories_shouldReturnEmptyList_whenNoCategoriesExist() {
-        // Arrange
         GetAllCategoriesRequest request = new GetAllCategoriesRequest();
         when(categoryRepository.findAll()).thenReturn(Collections.emptyList());
 
-        // Act
         GetAllCategoriesResponse response = getAllCategoriesUseCaseIMPL.getCategories(request);
 
-        // Assert
         assertNotNull(response);
         assertTrue(response.getCategories().isEmpty());
         verify(categoryRepository, times(1)).findAll();
@@ -69,11 +63,9 @@ class GetAllCategoriesUseCaseIMPLTest {
 
     @Test
     void getCategories_shouldHandleRepositoryException() {
-        // Arrange
         GetAllCategoriesRequest request = new GetAllCategoriesRequest();
         when(categoryRepository.findAll()).thenThrow(new RuntimeException("Database Error"));
 
-        // Act & Assert
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
             getAllCategoriesUseCaseIMPL.getCategories(request);
         });

@@ -2,6 +2,7 @@ package org.example.business.impl.userIMPL;
 
 import lombok.AllArgsConstructor;
 import org.example.Configuration.security.token.impl.AccessTokenImpl;
+import org.example.business.userException.InvalidCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.example.business.user.LogInUseCase;
@@ -23,11 +24,13 @@ public class LogInUseCaseImpl implements LogInUseCase {
     public LogInResponse loginUser(LogInRequest request) {
 
         Optional<UserEntity> user = userRepository.findByUsername(request.getUsername());
-        if (!user.isPresent()) {
-            throw new RuntimeException("User not found");
+
+        if(user == null){
+            throw new InvalidCredentialsException();
         }
-        if (!matchesPassword(request.getPassword(), user.get().getPassword())) {
-            throw new RuntimeException("Invalid password");
+
+        if(!matchesPassword(request.getPassword(), user.get().getPassword())){
+            throw new InvalidCredentialsException();
         }
 
         String accessToken = generateAccessToken(user.get());

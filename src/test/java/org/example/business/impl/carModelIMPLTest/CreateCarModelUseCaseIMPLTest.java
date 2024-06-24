@@ -34,7 +34,6 @@ class CreateCarModelUseCaseIMPLTest {
 
     @Test
     void createCarModel_shouldReturnResponse_whenCarBrandExists() {
-        // Arrange
         CreateCarModelRequest request = CreateCarModelRequest.builder()
                 .modelName("Test Model")
                 .brandID(1L)
@@ -54,10 +53,8 @@ class CreateCarModelUseCaseIMPLTest {
         when(carBrandRepository.findByCarBrandID(1L)).thenReturn(Optional.of(carBrandEntity));
         when(carModelRepository.save(any(CarModelEntity.class))).thenReturn(carModelEntity);
 
-        // Act
         CreateCarModelResponse response = createCarModelUseCaseIMPL.createCarModel(request);
 
-        // Assert
         assertNotNull(response);
         assertEquals(1L, response.getModelID());
         verify(carBrandRepository, times(1)).findByCarBrandID(1L);

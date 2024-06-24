@@ -1,7 +1,7 @@
 variables:
   SONARQUBE_IMAGE: sonarqube:latest
   DATABASE_IMAGE: mcr.microsoft.com/mssql/server:latest
-  BACKEND_IMAGE: autoindetify-backend:latest
+  BACKEND_IMAGE: autoidentify-be:latest
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
 before_script:
@@ -47,7 +47,7 @@ deploy_backend:
       } catch {
         Write-Host "Failed to remove the container, continuing..."
       }
-    - docker run -d -p 8090:8080 --net=docker_network_staging --env spring_profiles_active=staging --name autoindetify-be $env:BACKEND_IMAGE
+    - docker run -d -p 8090:8080 --net=docker_network_staging --env spring_profiles_active=staging --name=autoidentify-be-staging $env:BACKEND_IMAGE
 
 
 deploy_database:

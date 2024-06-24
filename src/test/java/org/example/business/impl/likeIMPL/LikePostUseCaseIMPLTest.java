@@ -54,58 +54,46 @@ public class LikePostUseCaseIMPLTest {
 
     @Test
     void likePost_shouldReturnSuccessTrue_whenPostIsNotYetLiked() {
-        // Arrange
         when(likeRepository.existsByUserUserIDAndPostPostID(anyLong(), anyLong())).thenReturn(false);
         when(userRepository.getById(anyLong())).thenReturn(user);
         when(postRepository.getById(anyLong())).thenReturn(post);
 
-        // Act
         LikePostResponse response = likePostUseCase.likePost(likePostRequest);
 
-        // Assert
         assertTrue(response.isSuccess());
         verify(likeRepository, times(1)).save(any(LikeEntity.class));
     }
 
     @Test
     void likePost_shouldReturnSuccessFalse_whenPostIsAlreadyLiked() {
-        // Arrange
         when(likeRepository.existsByUserUserIDAndPostPostID(anyLong(), anyLong())).thenReturn(true);
 
-        // Act
         LikePostResponse response = likePostUseCase.likePost(likePostRequest);
 
-        // Assert
         assertFalse(response.isSuccess());
         verify(likeRepository, never()).save(any(LikeEntity.class));
     }
 
     @Test
     void likePost_shouldReturnSuccessFalse_whenUserIsNull() {
-        // Arrange
         when(likeRepository.existsByUserUserIDAndPostPostID(anyLong(), anyLong())).thenReturn(false);
         when(userRepository.getById(anyLong())).thenReturn(null);
         when(postRepository.getById(anyLong())).thenReturn(post);
 
-        // Act
         LikePostResponse response = likePostUseCase.likePost(likePostRequest);
 
-        // Assert
         assertFalse(response.isSuccess());
         verify(likeRepository, never()).save(any(LikeEntity.class));
     }
 
     @Test
     void likePost_shouldReturnSuccessFalse_whenPostIsNull() {
-        // Arrange
         when(likeRepository.existsByUserUserIDAndPostPostID(anyLong(), anyLong())).thenReturn(false);
         when(userRepository.getById(anyLong())).thenReturn(user);
         when(postRepository.getById(anyLong())).thenReturn(null);
 
-        // Act
         LikePostResponse response = likePostUseCase.likePost(likePostRequest);
 
-        // Assert
         assertFalse(response.isSuccess());
         verify(likeRepository, never()).save(any(LikeEntity.class));
     }

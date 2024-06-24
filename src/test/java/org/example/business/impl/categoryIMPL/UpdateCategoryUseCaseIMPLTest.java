@@ -26,7 +26,6 @@ class UpdateCategoryUseCaseIMPLTest {
 
     @Test
     void updateCategory_shouldUpdate_whenCategoryExists() {
-        // Arrange
         long categoryID = 1L;
         UpdateCategoryRequest request = new UpdateCategoryRequest();
         request.setCategoryID(categoryID);
@@ -39,10 +38,8 @@ class UpdateCategoryUseCaseIMPLTest {
 
         when(categoryRepository.findByCategoryID(categoryID)).thenReturn(Optional.of(categoryEntity));
 
-        // Act
         updateCategoryUseCaseIMPL.updateCategory(request);
 
-        // Assert
         assertEquals("Updated Category", categoryEntity.getCategoryName());
         verify(categoryRepository, times(1)).findByCategoryID(categoryID);
         verify(categoryRepository, times(1)).save(categoryEntity);
@@ -50,7 +47,6 @@ class UpdateCategoryUseCaseIMPLTest {
 
     @Test
     void updateCategory_shouldThrowException_whenCategoryDoesNotExist() {
-        // Arrange
         long categoryID = 1L;
         UpdateCategoryRequest request = new UpdateCategoryRequest();
         request.setCategoryID(categoryID);
@@ -58,7 +54,6 @@ class UpdateCategoryUseCaseIMPLTest {
 
         when(categoryRepository.findByCategoryID(categoryID)).thenReturn(Optional.empty());
 
-        // Act & Assert
         NoSuchElementException exception = assertThrows(NoSuchElementException.class, () -> {
             updateCategoryUseCaseIMPL.updateCategory(request);
         });
@@ -70,7 +65,6 @@ class UpdateCategoryUseCaseIMPLTest {
 
     @Test
     void updateCategory_shouldHandleRepositoryException() {
-        // Arrange
         long categoryID = 1L;
         UpdateCategoryRequest request = new UpdateCategoryRequest();
         request.setCategoryID(categoryID);
@@ -78,7 +72,6 @@ class UpdateCategoryUseCaseIMPLTest {
 
         when(categoryRepository.findByCategoryID(categoryID)).thenThrow(new RuntimeException("Database Error"));
 
-        // Act & Assert
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
             updateCategoryUseCaseIMPL.updateCategory(request);
         });

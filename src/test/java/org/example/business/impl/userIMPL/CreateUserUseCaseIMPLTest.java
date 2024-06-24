@@ -62,22 +62,17 @@ class CreateUserUseCaseIMPLTest {
 
     @Test
     public void createUser_ShouldReturnUser_WhenRequestIsValid() {
-        // Mocking the role repository to return the correct role entity
         when(roleRepository.findByRole(RoleEnum.USER)).thenReturn(mockUserRole);
 
-        // Mocking the password encoder
         when(passwordEncoder.encode(request.getPassword())).thenReturn("encodedPassword");
 
-        // Mocking the user repository save method
         when(userRepository.save(any(UserEntity.class))).thenReturn(mockUserEntity);
 
         CreateUserResponse response = createUserUseCase.createUser(request);
 
-        // Assertions
         assertNotNull(response);
         assertEquals(1L, response.getUserID());
 
-        // Verify interactions
         verify(roleRepository, times(1)).findByRole(RoleEnum.USER);
         verify(passwordEncoder, times(1)).encode(request.getPassword());
         verify(userRepository, times(1)).save(any(UserEntity.class));
@@ -85,7 +80,6 @@ class CreateUserUseCaseIMPLTest {
 
     @Test
     void createUser_ShouldThrowException_WhenRoleNotFound() {
-        // Mock setup for roleRepository.findByRole(RoleEnum.USER)
         when(roleRepository.findByRole(RoleEnum.USER)).thenReturn(null);
 
         CreateUserRequest request = new CreateUserRequest();
@@ -98,7 +92,6 @@ class CreateUserUseCaseIMPLTest {
 
         assertEquals("Role not found: USER", exception.getMessage());
 
-        // Verify interactions
         verify(roleRepository, times(1)).findByRole(RoleEnum.USER);
         verify(userRepository, never()).save(any(UserEntity.class));
         verify(passwordEncoder, never()).encode(anyString());
@@ -107,10 +100,8 @@ class CreateUserUseCaseIMPLTest {
 
     @Test
     public void createUser_ShouldThrowException_WhenPasswordEncodingFails() {
-        // Mocking the role repository to return the correct role entity
         when(roleRepository.findByRole(RoleEnum.USER)).thenReturn(mockUserRole);
 
-        // Mocking the password encoder to throw an exception
         when(passwordEncoder.encode(request.getPassword())).thenThrow(new RuntimeException("Password encoding failed"));
 
         Exception exception = assertThrows(RuntimeException.class, () -> {
@@ -126,13 +117,10 @@ class CreateUserUseCaseIMPLTest {
 
     @Test
     public void createUser_ShouldThrowException_WhenUserSaveFails() {
-        // Mocking the role repository to return the correct role entity
         when(roleRepository.findByRole(RoleEnum.USER)).thenReturn(mockUserRole);
 
-        // Mocking the password encoder
         when(passwordEncoder.encode(request.getPassword())).thenReturn("encodedPassword");
 
-        // Mocking the user repository save method to throw an exception
         when(userRepository.save(any(UserEntity.class))).thenThrow(new RuntimeException("User save failed"));
 
         Exception exception = assertThrows(RuntimeException.class, () -> {
@@ -148,14 +136,12 @@ class CreateUserUseCaseIMPLTest {
 
     @Test
     void createUser_ShouldThrowException_WhenUsernameIsNull() {
-        // Arrange
         CreateUserRequest request = CreateUserRequest.builder()
                 .username(null)
                 .password("password")
                 .description("description")
                 .build();
 
-        // Act and Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             createUserUseCase.createUser(request);
         });

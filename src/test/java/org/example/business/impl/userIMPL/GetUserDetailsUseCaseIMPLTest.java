@@ -26,7 +26,6 @@ public class GetUserDetailsUseCaseIMPLTest {
 
     @Test
     public void testGetUserFound() {
-        // Arrange
         long userId = 1L;
         UserRoleEntity role = new UserRoleEntity();
         UserEntity userEntity = UserEntity.builder()
@@ -40,10 +39,8 @@ public class GetUserDetailsUseCaseIMPLTest {
         User expectedUser = UserConverter.convert(userEntity);
         when(userRepository.findById(userId)).thenReturn(Optional.of(userEntity));
 
-        // Act
         Optional<User> result = getUserDetailsUseCaseIMPL.getUser(userId);
 
-        // Assert
         assertTrue(result.isPresent());
         assertEquals(expectedUser.getUserID(), result.get().getUserID());
         verify(userRepository).findById(userId);
@@ -51,14 +48,11 @@ public class GetUserDetailsUseCaseIMPLTest {
 
     @Test
     public void testGetUserNotFound() {
-        // Arrange
         long userId = 2L;
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
-        // Act
         Optional<User> result = getUserDetailsUseCaseIMPL.getUser(userId);
 
-        // Assert
         assertFalse(result.isPresent());
         verify(userRepository).findById(userId);
     }

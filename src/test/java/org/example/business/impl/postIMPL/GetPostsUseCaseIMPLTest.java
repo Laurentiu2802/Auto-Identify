@@ -30,10 +30,8 @@ class GetPostsUseCaseIMPLTest {
 
     @Test
     void getAllPosts_shouldReturnAllPosts() {
-        // Arrange
         GetAllPostsRequest request = new GetAllPostsRequest();
 
-        // Create PostEntity 1
         PostEntity postEntity1 = new PostEntity();
         postEntity1.setPostID(1L);
         postEntity1.setDescription("Post 1 description");
@@ -55,7 +53,6 @@ class GetPostsUseCaseIMPLTest {
         carModelEntity1.setCarBrand(carBrandEntity1);
         postEntity1.setCarModel(carModelEntity1);
 
-        // Create PostEntity 2
         PostEntity postEntity2 = new PostEntity();
         postEntity2.setPostID(2L);
         postEntity2.setDescription("Post 2 description");
@@ -83,10 +80,8 @@ class GetPostsUseCaseIMPLTest {
         when(postRepository.countLikesForPost(1L)).thenReturn(10L);
         when(postRepository.countLikesForPost(2L)).thenReturn(20L);
 
-        // Act
         GetAllPostsResponse response = getPostsUseCaseIMPL.getAllPosts(request);
 
-        // Assert
         assertEquals(2, response.getPosts().size());
 
         Post post1 = response.getPosts().get(0);
@@ -102,15 +97,12 @@ class GetPostsUseCaseIMPLTest {
 
     @Test
     void getAllPosts_withNoPosts_shouldReturnEmptyList() {
-        // Arrange
         GetAllPostsRequest request = new GetAllPostsRequest();
 
         when(postRepository.findAll(Sort.by("postID").descending())).thenReturn(Collections.emptyList());
 
-        // Actx1
         GetAllPostsResponse response = getPostsUseCaseIMPL.getAllPosts(request);
 
-        // Assert
         assertEquals(0, response.getPosts().size());
     }
 }

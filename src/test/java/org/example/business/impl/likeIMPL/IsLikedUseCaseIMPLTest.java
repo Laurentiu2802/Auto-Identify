@@ -25,37 +25,30 @@ public class IsLikedUseCaseIMPLTest {
 
     @Test
     void isLiked_shouldReturnTrue_whenPostIsLikedByUser() {
-        // Arrange
         LikePostRequest request = new LikePostRequest();
         request.setUserID(1L);
         request.setPostID(2L);
         when(likeRepository.existsByUserUserIDAndPostPostID(anyLong(), anyLong())).thenReturn(true);
 
-        // Act
         IsLikedResponse response = isLikedUseCase.isLiked(request);
 
-        // Assert
         assertTrue(response.isLiked());
     }
 
     @Test
     void isLiked_shouldReturnFalse_whenPostIsNotLikedByUser() {
-        // Arrange
         LikePostRequest request = new LikePostRequest();
         request.setUserID(1L);
         request.setPostID(2L);
         when(likeRepository.existsByUserUserIDAndPostPostID(anyLong(), anyLong())).thenReturn(false);
 
-        // Act
         IsLikedResponse response = isLikedUseCase.isLiked(request);
 
-        // Assert
         assertFalse(response.isLiked());
     }
 
     @Test
     void isLiked_shouldReturnFalse_whenUserOrPostIsNull() {
-        // Arrange
         LikePostRequest nullUserRequest = new LikePostRequest();
         nullUserRequest.setUserID(null);
         nullUserRequest.setPostID(2L);
@@ -66,7 +59,6 @@ public class IsLikedUseCaseIMPLTest {
         nullPostRequest.setPostID(null);
         when(likeRepository.existsByUserUserIDAndPostPostID(1L, null)).thenReturn(false);
 
-        // Act & Assert
         assertFalse(isLikedUseCase.isLiked(nullUserRequest).isLiked());
         assertFalse(isLikedUseCase.isLiked(nullPostRequest).isLiked());
     }

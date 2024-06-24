@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.Configuration.security.token.AccessToken;
 import org.example.business.Post.*;
 import org.example.business.dto.postDTO.*;
 import org.example.domain.Post;
@@ -51,6 +52,9 @@ class PostControllerTest {
     @MockBean
     private GetPostByIDUseCase getPostByIDUseCase;
 
+    @MockBean
+    private AccessToken authUser;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -59,8 +63,10 @@ class PostControllerTest {
     @Test
     void createPost_shouldReturnCreatedPost() throws Exception {
         CreatePostRequest request = new CreatePostRequest();
+        request.setUserID(4L);
         CreatePostResponse response = new CreatePostResponse();
         when(createPostUseCase.createPost(any(CreatePostRequest.class))).thenReturn(response);
+        when(authUser.getStudentId()).thenReturn(4L);
 
         String requestBody = """
         {
@@ -79,6 +85,30 @@ class PostControllerTest {
                 .andExpect(content().json("{}"));
 
         verify(createPostUseCase, times(1)).createPost(any(CreatePostRequest.class));
+    }
+
+    @Test
+    void createPost_shouldReturnForbidden() throws Exception {
+        CreatePostRequest request = new CreatePostRequest();
+        request.setUserID(4L);
+        when(authUser.getStudentId()).thenReturn(5L);  // Different user ID
+
+        String requestBody = """
+        {
+            "description": "Test post",
+            "categoryID": 1,
+            "carModelID": 2,
+            "carBrandID": 3,
+            "userID": 4
+        }
+    """;
+
+        mockMvc.perform(post("/posts")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andExpect(status().isForbidden());
+
+        verify(createPostUseCase, times(0)).createPost(any(CreatePostRequest.class));
     }
 
     @Test
@@ -164,7 +194,6 @@ class PostControllerTest {
 
         verify(postRepository, times(1)).findPostsByCriteria(any(), any(), any());
     }
-
 
     @WithMockUser(roles = "ADMIN")
     @Test
